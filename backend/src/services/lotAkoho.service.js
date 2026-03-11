@@ -157,21 +157,24 @@ async function getSituationByIdAndDate(id, date) {
     const grammesParPouletVivant = calculerNourritureParPoulet(ageEntreeSemaine, jourDepuisEntree, descMap);
     valeurNourritureConsommee += grammesParPouletVivant * nombreApresMort * race.prix_sakafo;
 
-    // 6. Prix de vente (poids × prix de vente par gramme)
-    const poidsTotalSansMort = poidsMoyen * lotAkoho.nombre;
-    const prixVenteSansMort = poidsTotalSansMort * race.prix_vente;
+    // 6. Poids moyen : sans mort = poids par poulet, avec mort = ramené au lot initial
+    const poidsMoyenSansMort = poidsMoyen;
+    const poidsMoyenAvecMort = lotAkoho.nombre > 0
+        ? (poidsMoyen * nombreApresMort) / lotAkoho.nombre
+        : 0;
 
-    const poidsTotalAvecMort = poidsMoyen * nombreApresMort;
-    const prixVenteAvecMort = poidsTotalAvecMort * race.prix_vente;
+    // 7. Prix de vente (poids × prix de vente par gramme)
+    const prixVenteSansMort = poidsMoyen * lotAkoho.nombre * race.prix_vente;
+    const prixVenteAvecMort = poidsMoyen * nombreApresMort * race.prix_vente;
 
-    // 7. Oeufs (total oeufs − oeufs déjà nés/éclos)
+    // 8. Oeufs (total oeufs − oeufs déjà nés/éclos)
     const nombreOeufs = await lotAtodyService.getNombreOeufsByLotAkohoIdAndDate(id, date);
     const valeurOeufs = nombreOeufs * race.prix_vente_atody;
 
-    // 8. Prix d'achat total
+    // 9. Prix d'achat total
     const prixAchatTotal = lotAkoho.prix_achat * lotAkoho.nombre;
 
-    // 9. Bénéfices
+    // 10. Bénéfices
     const beneficeSansMort = prixVenteSansMort + valeurOeufs - prixAchatTotal - valeurNourritureConsommee;
     const beneficeAvecMort = prixVenteAvecMort + valeurOeufs - prixAchatTotal - valeurNourritureConsommee;
 
@@ -180,7 +183,8 @@ async function getSituationByIdAndDate(id, date) {
         nombreInitial: lotAkoho.nombre,
         prixAchatTotal,
         valeurNourritureConsommee,
-        poidsMoyenParPoulet: poidsMoyen,
+        poidsMoyenSansMort,
+        poidsMoyenAvecMort,
         prixVenteSansMort,
         nombreMorts,
         nombreApresMort,

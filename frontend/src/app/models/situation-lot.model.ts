@@ -3,7 +3,8 @@ export interface SituationLot {
   nombreInitial: number;
   prixAchatTotal: number;
   valeurNourritureConsommee: number;
-  poidsMoyenParPoulet: number;
+  poidsMoyenSansMort: number;
+  poidsMoyenAvecMort: number;
   prixVenteSansMort: number;
   nombreMorts: number;
   nombreApresMort: number;
