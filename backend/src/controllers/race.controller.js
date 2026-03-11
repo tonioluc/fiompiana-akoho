@@ -31,4 +31,17 @@ async function deleteById(req, res, next) {
     } catch (error) { next(error); }
 }
 
-module.exports = { getAll, getById, create, update, deleteById };
+async function getPoidsAkoho(req, res, next) {
+    try {
+        const raceId = parseInt(req.params.id);
+        const { dateDebut, dateFin } = req.query;
+        if (!dateDebut || !dateFin) {
+            const error = new Error('Paramètres obligatoires : dateDebut et dateFin (format: YYYY-MM-DD)');
+            error.status = 400;
+            throw error;
+        }
+        res.json(await raceService.getPoidsAkoho(raceId, dateDebut, dateFin));
+    } catch (error) { next(error); }
+}
+
+module.exports = { getAll, getById, create, update, deleteById, getPoidsAkoho };

@@ -150,6 +150,7 @@ router.post('/', raceController.create);
  *               $ref: '#/components/schemas/Error'
  */
 router.get('/:id', raceController.getById);
+router.get('/:id/poids-akoho', raceController.getPoidsAkoho);
 router.put('/:id', raceController.update);
 router.delete('/:id', raceController.deleteById);
 

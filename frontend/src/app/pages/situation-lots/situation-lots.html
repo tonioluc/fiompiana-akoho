@@ -66,29 +66,29 @@
             <thead class="table-dark">
               <tr>
                 <th scope="col">Lot</th>
-                <th scope="col" class="text-end">Nombre initial</th>
+                <!-- <th scope="col" class="text-end">Nombre initial</th> -->
                 <th scope="col" class="text-end">Âge (sem.)</th>
-                <th scope="col" class="text-end">Poids moyen (g)</th>
+                <!-- <th scope="col" class="text-end">Poids moyen (g)</th> -->
                 <th scope="col" class="text-end">Morts</th>
-                <th scope="col" class="text-end">Restants</th>
-                <th scope="col" class="text-end">Poids moyen avec mort (g)</th>
+                <th scope="col" class="text-end">Poulets restants</th>
+                <th scope="col" class="text-end">Poids moyen (g)</th>
                 <th scope="col" class="text-end">Œufs</th>
                 <th scope="col" class="text-end">Prix achat</th>
                 <th scope="col" class="text-end">Nourriture</th>
                 <th scope="col" class="text-end">Valeur œufs</th>
-                <th scope="col" class="text-end">Vente (sans mort)</th>
-                <th scope="col" class="text-end">Vente (avec mort)</th>
-                <th scope="col" class="text-end">Bénéfice (sans mort)</th>
-                <th scope="col" class="text-end">Bénéfice (avec mort)</th>
+                <!-- <th scope="col" class="text-end">Vente (sans mort)</th> -->
+                <th scope="col" class="text-end">Prix de vente</th>
+                <!-- <th scope="col" class="text-end">Bénéfice (sans mort)</th> -->
+                <th scope="col" class="text-end">Bénéfice</th>
               </tr>
             </thead>
             <tbody>
               @for (item of situations(); track item.numero) {
                 <tr>
                   <td class="fw-semibold">n° {{ item.numero }}</td>
-                  <td class="text-end">{{ item.nombreInitial }}</td>
+                  <!-- <td class="text-end">{{ item.nombreInitial }}</td> -->
                   <td class="text-end">{{ item.ageEnSemaine }}</td>
-                  <td class="text-end">{{ formatNumber(item.poidsMoyenSansMort) }}</td>
+                  <!-- <td class="text-end">{{ formatNumber(item.poidsMoyenSansMort) }}</td> -->
                   <td class="text-end">{{ item.nombreMorts }}</td>
                   <td class="text-end">{{ item.nombreApresMort }}</td>
                   <td class="text-end">{{ formatNumber(item.poidsMoyenAvecMort) }}</td>
@@ -96,11 +96,11 @@
                   <td class="text-end">{{ formatCurrency(item.prixAchatTotal) }}</td>
                   <td class="text-end">{{ formatCurrency(item.valeurNourritureConsommee) }}</td>
                   <td class="text-end">{{ formatCurrency(item.valeurOeufs) }}</td>
-                  <td class="text-end">{{ formatCurrency(item.prixVenteSansMort) }}</td>
+                  <!-- <td class="text-end">{{ formatCurrency(item.prixVenteSansMort) }}</td> -->
                   <td class="text-end">{{ formatCurrency(item.prixVenteAvecMort) }}</td>
-                  <td class="text-end" [class]="getBeneficeClass(item.beneficeSansMort)">
+                  <!-- <td class="text-end" [class]="getBeneficeClass(item.beneficeSansMort)">
                     {{ formatCurrency(item.beneficeSansMort) }}
-                  </td>
+                  </td> -->
                   <td class="text-end" [class]="getBeneficeClass(item.beneficeAvecMort)">
                     {{ formatCurrency(item.beneficeAvecMort) }}
                   </td>
@@ -128,5 +128,81 @@
       </div>
     </div>
   }
+
+  <!-- ═══════════ CALCULATEUR POIDS AKOHO ═══════════ -->
+  <div class="card shadow-sm mt-4">
+    <div class="card-header bg-dark text-white">
+      <h5 class="mb-0">
+        <i class="bi bi-calculator me-2"></i>
+        Calculateur de poids — getPoidsAkoho(race, dateDebut, dateFin)
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="row align-items-end g-3">
+        <div class="col-auto">
+          <label for="poidsRace" class="form-label fw-semibold">Race</label>
+          <select class="form-select"
+                  id="poidsRace"
+                  name="poidsRace"
+                  [(ngModel)]="poidsRaceId"
+                  style="width: 200px;">
+            <option [ngValue]="null" disabled>-- Choisir --</option>
+            @for (race of races(); track race.Id_race) {
+              <option [ngValue]="race.Id_race">{{ race.nom }}</option>
+            }
+          </select>
+        </div>
+        <div class="col-auto">
+          <label for="poidsDateDebut" class="form-label fw-semibold">Date début</label>
+          <input type="date" class="form-control" id="poidsDateDebut" name="poidsDateDebut"
+                 [(ngModel)]="poidsDateDebut" style="width: 180px;">
+        </div>
+        <div class="col-auto">
+          <label for="poidsDateFin" class="form-label fw-semibold">Date fin</label>
+          <input type="date" class="form-control" id="poidsDateFin" name="poidsDateFin"
+                 [(ngModel)]="poidsDateFin" style="width: 180px;">
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" (click)="calculerPoids()" [disabled]="poidsLoading()">
+            @if (poidsLoading()) {
+              <span class="spinner-border spinner-border-sm me-1"></span>
+            }
+            <i class="bi bi-calculator me-1"></i>
+            Calculer
+          </button>
+        </div>
+      </div>
+
+      @if (poidsError()) {
+        <div class="alert alert-danger mt-3 mb-0">
+          <i class="bi bi-exclamation-triangle me-1"></i>{{ poidsError() }}
+        </div>
+      }
+
+      @if (poidsResult()) {
+        <div class="alert alert-success mt-3 mb-0">
+          <h5 class="alert-heading">
+            <i class="bi bi-check-circle me-1"></i>
+            Résultat pour la race « {{ poidsResult()!.raceName }} »
+          </h5>
+          <hr>
+          <div class="row">
+            <div class="col-md-3">
+              <strong>Jours de présence :</strong><br>
+              {{ poidsResult()!.joursPresence }} jours
+            </div>
+            <div class="col-md-3">
+              <strong>Âge en semaines :</strong><br>
+              {{ poidsResult()!.ageEnSemaine }} sem.
+            </div>
+            <div class="col-md-3">
+              <strong>Poids exact :</strong><br>
+              <span class="fs-4 fw-bold text-primary">{{ formatNumber(poidsResult()!.poidsGrammes) }} g</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
 
 </div>

@@ -42,4 +42,22 @@ export class RaceService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  /** Calculer le poids d'un poulet d'une race entre deux dates */
+  getPoidsAkoho(raceId: number, dateDebut: string, dateFin: string): Observable<PoidsAkohoResponse> {
+    return this.http.get<PoidsAkohoResponse>(
+      `${this.baseUrl}/${raceId}/poids-akoho`,
+      { params: { dateDebut, dateFin } }
+    );
+  }
+}
+
+export interface PoidsAkohoResponse {
+  raceId: number;
+  raceName: string;
+  dateDebut: string;
+  dateFin: string;
+  joursPresence: number;
+  ageEnSemaine: number;
+  poidsGrammes: number;
 }
