@@ -1,0 +1,9 @@
+/* Styles pour la page Naissance de Poussins */
+
+.table-hover tbody tr:hover {
+  transition: background-color 0.2s ease;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+}

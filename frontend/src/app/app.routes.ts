@@ -60,6 +60,20 @@ export const routes: Routes = [
       import('./pages/lot-atody/lot-atody').then(m => m.LotAtodyComponent)
   },
 
+  // Route pour la page Naissance de Poussins
+  {
+    path: 'naissances-oeuf',
+    loadComponent: () =>
+      import('./pages/naissance-oeuf/naissance-oeuf').then(m => m.NaissanceOeufComponent)
+  },
+
+  // Route pour la page Œufs Pourris (Lamokany)
+  {
+    path: 'atody-lamokany',
+    loadComponent: () =>
+      import('./pages/atody-lamokany/atody-lamokany').then(m => m.AtodyLamokanyComponent)
+  },
+
   // Route pour la page Situation des Lots
   {
     path: 'situation-lots',

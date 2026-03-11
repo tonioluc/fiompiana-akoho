@@ -1,0 +1,187 @@
+<div class="container-fluid p-4">
+
+  <!-- ═══════════ EN-TÊTE DE PAGE ═══════════ -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">
+        <i class="bi bi-x-circle me-2"></i>
+        Œufs Pourris (Lamokany)
+      </h2>
+      <p class="text-muted mb-0">
+        Enregistrement des œufs couvés gâtés par lot d'œufs
+      </p>
+    </div>
+
+    <button class="btn btn-primary"
+            (click)="prepareCreate()"
+            data-bs-toggle="modal"
+            data-bs-target="#atodyLamokanyFormModal">
+      <i class="bi bi-plus-circle me-1"></i>
+      Nouveau
+    </button>
+  </div>
+
+  <!-- ═══════════ MESSAGES D'ALERTE ═══════════ -->
+  @if (successMessage()) {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle me-2"></i>
+      {{ successMessage() }}
+      <button type="button" class="btn-close" (click)="clearMessages()"></button>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      {{ errorMessage() }}
+      <button type="button" class="btn-close" (click)="clearMessages()"></button>
+    </div>
+  }
+
+  <!-- ═══════════ INDICATEUR DE CHARGEMENT ═══════════ -->
+  @if (loading()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+      <p class="text-muted mt-2">Chargement des données...</p>
+    </div>
+  }
+
+  <!-- ═══════════ TABLEAU DES DONNÉES ═══════════ -->
+  @if (!loading()) {
+    <div class="card shadow-sm">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Lot d'œufs</th>
+                <th scope="col" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of items(); track item.Id_atody_lamokany) {
+                <tr>
+                  <td>{{ item.Id_atody_lamokany }}</td>
+                  <td>{{ formatDate(item.date_lamokany) }}</td>
+                  <td>{{ item.nombre }}</td>
+                  <td>{{ getLotAtodyNumero(item.Id_lot_atody) }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-outline-warning me-1"
+                            (click)="prepareEdit(item)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#atodyLamokanyFormModal"
+                            title="Modifier">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger"
+                            (click)="deleteItem(item)"
+                            title="Supprimer">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              }
+
+              @if (items().length === 0) {
+                <tr>
+                  <td colspan="5" class="text-center text-muted py-4">
+                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                    Aucun enregistrement trouvé.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card-footer text-muted">
+        <small>
+          <i class="bi bi-database me-1"></i>
+          {{ items().length }} enregistrement(s)
+        </small>
+      </div>
+    </div>
+  }
+
+  <!-- ═══════════ MODAL FORMULAIRE ═══════════ -->
+  <div class="modal fade" id="atodyLamokanyFormModal" tabindex="-1" aria-labelledby="atodyLamokanyFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="atodyLamokanyFormModalLabel">
+            @if (formMode === 'create') {
+              <i class="bi bi-plus-circle me-2"></i>Enregistrer des œufs pourris
+            } @else {
+              <i class="bi bi-pencil-square me-2"></i>Modifier l'enregistrement
+            }
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="numeroLotAtody" class="form-label">Numéro du lot d'œufs</label>
+              <input type="number"
+                     class="form-control"
+                     id="numeroLotAtody"
+                     name="numeroLotAtody"
+                     [(ngModel)]="formNumeroLotAtody"
+                     placeholder="Ex: 101"
+                     required>
+              @if (lotLookupError()) {
+                <div class="text-danger mt-1">
+                  <small><i class="bi bi-exclamation-circle me-1"></i>{{ lotLookupError() }}</small>
+                </div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="dateLamokany" class="form-label">Date</label>
+              <input type="date"
+                     class="form-control"
+                     id="dateLamokany"
+                     name="dateLamokany"
+                     [(ngModel)]="formData.date_lamokany"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre d'œufs pourris</label>
+              <input type="number"
+                     class="form-control"
+                     id="nombre"
+                     name="nombre"
+                     [(ngModel)]="formData.nombre"
+                     placeholder="Ex: 5"
+                     required>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>
+            Annuler
+          </button>
+          <button type="button" class="btn btn-primary" (click)="save()">
+            @if (formMode === 'create') {
+              <i class="bi bi-plus-circle me-1"></i>Créer
+            } @else {
+              <i class="bi bi-check-circle me-1"></i>Enregistrer
+            }
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

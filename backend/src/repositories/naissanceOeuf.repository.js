@@ -17,7 +17,7 @@ async function findById(id) {
 async function create({ nombre_poussin, date_naissance, Id_lot_atody }) {
     const pool = await getPool();
     const result = await pool.request()
-        .input('nombre_poussin', sql.VarChar(50), nombre_poussin)
+        .input('nombre_poussin', sql.Int, nombre_poussin)
         .input('date_naissance', sql.Date, date_naissance)
         .input('Id_lot_atody', sql.Int, Id_lot_atody)
         .query(`
@@ -32,7 +32,7 @@ async function update(id, { nombre_poussin, date_naissance, Id_lot_atody }) {
     const pool = await getPool();
     const result = await pool.request()
         .input('id', sql.Int, id)
-        .input('nombre_poussin', sql.VarChar(50), nombre_poussin)
+        .input('nombre_poussin', sql.Int, nombre_poussin)
         .input('date_naissance', sql.Date, date_naissance)
         .input('Id_lot_atody', sql.Int, Id_lot_atody)
         .query(`
@@ -63,7 +63,7 @@ async function sumNaissanceByLotAtodyIdsAndDate(lotAtodyIds, date) {
     const request = pool.request().input('date', sql.Date, date);
     lotAtodyIds.forEach((id, i) => request.input(`id${i}`, sql.Int, id));
     const result = await request.query(`
-        SELECT COALESCE(SUM(CAST(nombre_poussin AS INT)), 0) as total
+        SELECT COALESCE(SUM(nombre_poussin), 0) as total
         FROM naissance_oeuf
         WHERE Id_lot_atody IN (${params}) AND date_naissance <= @date
     `);

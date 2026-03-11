@@ -75,7 +75,7 @@ GO
 
 CREATE TABLE naissance_oeuf(
    Id_naissance_oeuf INT IDENTITY,
-   nombre_poussin VARCHAR(50),
+   nombre_poussin INT NOT NULL,
    date_naissance DATE,
    Id_lot_atody INT NOT NULL,
    PRIMARY KEY(Id_naissance_oeuf),

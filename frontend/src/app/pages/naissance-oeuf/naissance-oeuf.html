@@ -1,0 +1,199 @@
+<div class="container-fluid p-4">
+
+  <!-- ═══════════ EN-TÊTE DE PAGE ═══════════ -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">
+        <i class="bi bi-egg me-2"></i>
+        Naissance de Poussins
+      </h2>
+      <p class="text-muted mb-0">
+        Enregistrement des naissances (lot œufs → nouveau lot poulets)
+      </p>
+    </div>
+
+    <button class="btn btn-primary"
+            (click)="prepareCreate()"
+            data-bs-toggle="modal"
+            data-bs-target="#naissanceOeufFormModal">
+      <i class="bi bi-plus-circle me-1"></i>
+      Nouvelle naissance
+    </button>
+  </div>
+
+  <!-- ═══════════ MESSAGES D'ALERTE ═══════════ -->
+  @if (successMessage()) {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle me-2"></i>
+      {{ successMessage() }}
+      <button type="button" class="btn-close" (click)="clearMessages()"></button>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      {{ errorMessage() }}
+      <button type="button" class="btn-close" (click)="clearMessages()"></button>
+    </div>
+  }
+
+  <!-- ═══════════ INDICATEUR DE CHARGEMENT ═══════════ -->
+  @if (loading()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+      <p class="text-muted mt-2">Chargement des données...</p>
+    </div>
+  }
+
+  <!-- ═══════════ TABLEAU DES DONNÉES ═══════════ -->
+  @if (!loading()) {
+    <div class="card shadow-sm">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Date de naissance</th>
+                <th scope="col">Nombre de poussins</th>
+                <th scope="col">Lot d'œufs</th>
+                <th scope="col" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of items(); track item.Id_naissance_oeuf) {
+                <tr>
+                  <td>{{ item.Id_naissance_oeuf }}</td>
+                  <td>{{ formatDate(item.date_naissance) }}</td>
+                  <td>{{ item.nombre_poussin }}</td>
+                  <td>{{ getLotAtodyNumero(item.Id_lot_atody) }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-outline-warning me-1"
+                            (click)="prepareEdit(item)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#naissanceOeufFormModal"
+                            title="Modifier">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger"
+                            (click)="deleteItem(item)"
+                            title="Supprimer">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              }
+
+              @if (items().length === 0) {
+                <tr>
+                  <td colspan="5" class="text-center text-muted py-4">
+                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                    Aucune naissance enregistrée.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card-footer text-muted">
+        <small>
+          <i class="bi bi-database me-1"></i>
+          {{ items().length }} enregistrement(s)
+        </small>
+      </div>
+    </div>
+  }
+
+  <!-- ═══════════ MODAL FORMULAIRE ═══════════ -->
+  <div class="modal fade" id="naissanceOeufFormModal" tabindex="-1" aria-labelledby="naissanceOeufFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="naissanceOeufFormModalLabel">
+            @if (formMode === 'create') {
+              <i class="bi bi-plus-circle me-2"></i>Enregistrer une naissance
+            } @else {
+              <i class="bi bi-pencil-square me-2"></i>Modifier l'enregistrement
+            }
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="numeroLotAtody" class="form-label">Numéro du lot d'œufs</label>
+              <input type="number"
+                     class="form-control"
+                     id="numeroLotAtody"
+                     name="numeroLotAtody"
+                     [(ngModel)]="formNumeroLotAtody"
+                     placeholder="Ex: 101"
+                     required>
+              @if (lotLookupError()) {
+                <div class="text-danger mt-1">
+                  <small><i class="bi bi-exclamation-circle me-1"></i>{{ lotLookupError() }}</small>
+                </div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="nombrePoussin" class="form-label">Nombre de poussins</label>
+              <input type="number"
+                     class="form-control"
+                     id="nombrePoussin"
+                     name="nombrePoussin"
+                     [(ngModel)]="formData.nombre_poussin"
+                     placeholder="Ex: 25"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label for="dateNaissance" class="form-label">Date de naissance</label>
+              <input type="date"
+                     class="form-control"
+                     id="dateNaissance"
+                     name="dateNaissance"
+                     [(ngModel)]="formData.date_naissance"
+                     required>
+            </div>
+
+            @if (formMode === 'create') {
+              <div class="alert alert-info mb-0">
+                <small>
+                  <i class="bi bi-info-circle me-1"></i>
+                  Un nouveau lot de poulets sera automatiquement créé avec un prix d'achat de <strong>0 Ar</strong>.
+                </small>
+              </div>
+            }
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>
+            Annuler
+          </button>
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="saving()">
+            @if (saving()) {
+              <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+              En cours...
+            } @else if (formMode === 'create') {
+              <i class="bi bi-plus-circle me-1"></i>Créer
+            } @else {
+              <i class="bi bi-check-circle me-1"></i>Enregistrer
+            }
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
