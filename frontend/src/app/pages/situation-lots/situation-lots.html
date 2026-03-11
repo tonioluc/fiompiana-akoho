@@ -69,9 +69,9 @@
                 <th scope="col" class="text-end">Nombre initial</th>
                 <th scope="col" class="text-end">Âge (sem.)</th>
                 <th scope="col" class="text-end">Poids moyen (g)</th>
-                <th scope="col" class="text-end">Poids moyen avec mort (g)</th>
                 <th scope="col" class="text-end">Morts</th>
                 <th scope="col" class="text-end">Restants</th>
+                <th scope="col" class="text-end">Poids moyen avec mort (g)</th>
                 <th scope="col" class="text-end">Œufs</th>
                 <th scope="col" class="text-end">Prix achat</th>
                 <th scope="col" class="text-end">Nourriture</th>
@@ -85,13 +85,13 @@
             <tbody>
               @for (item of situations(); track item.numero) {
                 <tr>
-                  <td class="fw-semibold">Lot n°{{ item.numero }}</td>
+                  <td class="fw-semibold">n° {{ item.numero }}</td>
                   <td class="text-end">{{ item.nombreInitial }}</td>
                   <td class="text-end">{{ item.ageEnSemaine }}</td>
                   <td class="text-end">{{ formatNumber(item.poidsMoyenSansMort) }}</td>
-                  <td class="text-end">{{ formatNumber(item.poidsMoyenAvecMort) }}</td>
                   <td class="text-end">{{ item.nombreMorts }}</td>
                   <td class="text-end">{{ item.nombreApresMort }}</td>
+                  <td class="text-end">{{ formatNumber(item.poidsMoyenAvecMort) }}</td>
                   <td class="text-end">{{ item.nombreOeufs }}</td>
                   <td class="text-end">{{ formatCurrency(item.prixAchatTotal) }}</td>
                   <td class="text-end">{{ formatCurrency(item.valeurNourritureConsommee) }}</td>
