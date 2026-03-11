@@ -82,13 +82,15 @@ async function getPoidsAkoho(raceId, dateDebut, dateFin) {
     const fraction = ageExact - ageEntier;
 
     let poidsGrammes = 0;
-    for (let w = 0; w < ageEntier; w++) {
+    for (let w = 0; w <= ageEntier; w++) {
         if (descMap[w]) {
             poidsGrammes += descMap[w].variation_poids;
         }
     }
-    if (fraction > 0 && descMap[ageEntier]) {
-        poidsGrammes += descMap[ageEntier].variation_poids * fraction;
+    // Ajouter la fraction de la semaine suivante
+    const semaineSuivante = ageEntier + 1;
+    if (fraction > 0 && descMap[semaineSuivante]) {
+        poidsGrammes += descMap[semaineSuivante].variation_poids * fraction;
     }
 
     return {

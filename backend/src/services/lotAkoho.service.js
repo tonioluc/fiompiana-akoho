@@ -123,16 +123,17 @@ async function getSituationByIdAndDate(id, date) {
 
     // 4. Poids moyen par poulet
     //    On cumule les variations de poids depuis la semaine 0 (naissance)
-    //    même si le lot est entré à une semaine > 0, le poulet a accumulé du poids avant
+    //    Le poids de la semaine 0 est le poids initial du poulet
     let poidsMoyen = 0;
-    for (let w = 0; w < ageActuelSemaineEntier; w++) {
+    for (let w = 0; w <= ageActuelSemaineEntier; w++) {
         if (descMap[w]) {
             poidsMoyen += descMap[w].variation_poids;
         }
     }
-    // Ajouter la fraction de la semaine en cours
-    if (fractionSemaineCourante > 0 && descMap[ageActuelSemaineEntier]) {
-        poidsMoyen += descMap[ageActuelSemaineEntier].variation_poids * fractionSemaineCourante;
+    // Ajouter la fraction de la semaine suivante
+    const semaineSuivante = ageActuelSemaineEntier + 1;
+    if (fractionSemaineCourante > 0 && descMap[semaineSuivante]) {
+        poidsMoyen += descMap[semaineSuivante].variation_poids * fractionSemaineCourante;
     }
 
     // 5. Valeur de la nourriture consommée — calcul par tranche de vie
