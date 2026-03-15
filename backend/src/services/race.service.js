@@ -62,7 +62,7 @@ async function getPoidsAkoho(raceId, dateDebut, dateFin) {
 
     const dateDebutObj = new Date(dateDebut);
     const dateFinObj = new Date(dateFin);
-    const joursPresence = Math.floor((dateFinObj - dateDebutObj) / (24 * 60 * 60 * 1000));
+    const joursPresence = Math.floor((dateFinObj - dateDebutObj) / (24 * 60 * 60 * 1000)) + 1;
 
     if (joursPresence < 0) {
         const error = new Error('La date de fin doit être postérieure à la date de début');
