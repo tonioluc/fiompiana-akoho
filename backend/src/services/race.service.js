@@ -104,4 +104,51 @@ async function getPoidsAkoho(raceId, dateDebut, dateFin) {
     };
 }
 
-module.exports = { getAll, getById, create, update, deleteById, getPoidsAkoho };
+async function getSakafoAkoho(ageEntree ,raceId, dateDebut, dateFin) {
+    const race = await getById(raceId);
+    const descriptions = await descriptionRaceService.getAllByRaceId(raceId);
+    
+    const dateDebutObj = new Date(dateDebut);
+    const dateFinObj = new Date(dateFin);
+    const joursPresence = Math.floor((dateFinObj - dateDebutObj) / (24 * 60 * 60 * 1000)) + 1;
+
+    if (joursPresence < 0) {
+        const error = new Error('La date de fin doit être postérieure à la date de début');
+        error.status = 400;
+        throw error;
+    }
+
+    // Map des descriptions par semaine
+    const descMap = {};
+    for (const desc of descriptions) {
+        descMap[desc.age] = desc;
+    }
+
+    const ageExact = joursPresence / 7;
+    const ageEntier = Math.floor(ageExact);
+    const fraction = ageExact - ageEntier;
+    
+    let totalGrammes = 0;
+    for (let w = ageEntree ; w <= ageEntier; w++) {
+        if (descMap[w]) {
+            totalGrammes += descMap[w].lanja_sakafo;
+        }
+    }
+    // Ajouter la fraction de la semaine suivante
+    const semaineSuivante = ageEntier + ageEntier + 1;
+    if (fraction > 0 && descMap[semaineSuivante]) {
+        totalGrammes += descMap[semaineSuivante].lanja_sakafo * fraction;
+    }
+
+    return {
+        raceId: race.Id_race,
+        raceName: race.nom,
+        dateDebut,
+        dateFin,
+        joursPresence,
+        ageEnSemaine: parseFloat(ageExact.toFixed(2)),
+        totalGrammes: parseFloat(totalGrammes.toFixed(2))
+    };
+}
+
+module.exports = { getAll, getById, create, update, deleteById, getPoidsAkoho, getSakafoAkoho };
