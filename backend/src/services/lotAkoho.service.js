@@ -102,15 +102,25 @@ async function getSituationByIdAndDate(id, date) {
     const valeurOeufsRestants = nombreOeuf * (await raceService.getById(lotAkoho.Id_race)).prix_vente_atody;
 
     // valeur des nourritures consommées
-    const nourritureConsommePouletRestantEnGramme = await raceService.getSakafoAkoho(lotAkoho.age, lotAkoho.Id_race, lotAkoho.date_entree, date).totalGrammes * pouletRestant;
+    const sakafoPouletRestant = await raceService.getSakafoAkoho(
+        lotAkoho.age,
+        lotAkoho.Id_race,
+        lotAkoho.date_entree,
+        date
+    );
+    const nourritureConsommePouletRestantEnGramme = sakafoPouletRestant.totalGrammes * pouletRestant;
     
     let nourritureConsommePouletMortEnGramme = 0;
     if (nombreMorts > 0) {
         const detailsMorts = await akohoMatyService.getDetailsByLotAkohoIdAndDate(id, date);
         for (const mort of detailsMorts) {
-            const dateMortObj = new Date(mort.date_mort);
-            const joursAvantMort = Math.floor((dateMortObj - dateEntreeObj) / (24 * 60 * 60 * 1000));
-            nourritureConsommePouletMortEnGramme += await raceService.getSakafoAkoho(lotAkoho.age, lotAkoho.Id_race, lotAkoho.date_entree, mort.date_mort).totalGrammes * mort.nombre;
+            const sakafoPouletMort = await raceService.getSakafoAkoho(
+                lotAkoho.age,
+                lotAkoho.Id_race,
+                lotAkoho.date_entree,
+                mort.date_mort
+            );
+            nourritureConsommePouletMortEnGramme += sakafoPouletMort.totalGrammes * mort.nombre;
         }
     }
 
@@ -118,7 +128,12 @@ async function getSituationByIdAndDate(id, date) {
     
     const totalNourritureConsommeeEnGramme = nourritureConsommePouletRestantEnGramme + nourritureConsommePouletMortEnGramme;
     const valeurNourritureConsommee = totalNourritureConsommeeEnGramme * (await raceService.getById(lotAkoho.Id_race)).prix_sakafo;
-    console.log();
+    console.log(
+        'nourriture consommée pour les poulets restants (en grammes) :', nourritureConsommePouletRestantEnGramme,
+        '\nnourriture consommée pour les poulets morts (en grammes) :', nourritureConsommePouletMortEnGramme,
+        '\ntotal nourriture consommée (en grammes) :', totalNourritureConsommeeEnGramme,
+        '\nValeur de la nourriture consommée :', valeurNourritureConsommee
+    );
 
     // prix achat total
     const prixAchatTotal = lotAkoho.prix_achat * lotAkoho.nombre;

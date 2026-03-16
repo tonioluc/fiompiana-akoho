@@ -129,13 +129,15 @@ async function getSakafoAkoho(ageEntree ,raceId, dateDebut, dateFin) {
     const fraction = ageExact - ageEntier;
     
     let totalGrammes = 0;
+    console.log('ETOOO');
+    
     for (let w = ageEntree ; w <= ageEntier; w++) {
         if (descMap[w]) {
             totalGrammes += descMap[w].lanja_sakafo;
         }
     }
     // Ajouter la fraction de la semaine suivante
-    const semaineSuivante = ageEntier + ageEntier + 1;
+    const semaineSuivante = ageEntier + 1;
     if (fraction > 0 && descMap[semaineSuivante]) {
         totalGrammes += descMap[semaineSuivante].lanja_sakafo * fraction;
     }
