@@ -81,7 +81,7 @@ async function getSituationByIdAndDate(id, date) {
     const ageEnSemaine = parseFloat((lotAkoho.age + (jourDepuisEntree / 7)).toFixed(2));
 
     //nombre de mort 
-    const nombreMorts = await getAkohoMatyByIdLotAkohoAndDate(id, date);
+    const nombreMorts = await akohoMatyService.getAkohoMatyByIdLotAkohoAndDate(id, date);
 
     //poulet restant
     const pouletRestant = lotAkoho.nombre - nombreMorts;
