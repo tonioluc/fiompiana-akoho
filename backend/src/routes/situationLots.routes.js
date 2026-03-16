@@ -19,12 +19,12 @@ const situationLotsController = require('../controllers/situationLots.controller
  *       dont la date d'entrée est antérieure ou égale à la date demandée.
  *
  *       Pour chaque lot, on calcule :
- *       - Le nombre de poulets initial et restant (après morts)
- *       - Le poids moyen par poulet
- *       - La valeur de la nourriture consommée (par tranche de vie)
- *       - Le prix de vente (avec et sans morts)
- *       - Le nombre d'œufs restants (total − naissances − œufs pourris)
- *       - Le bénéfice (avec et sans morts)
+ *       - Le numéro du lot et son âge en semaines
+ *       - Le nombre de morts, le poids moyen et le poids total restant
+ *       - Le nombre d'oeufs restants et leur valeur
+ *       - Le prix de vente total des poulets restants
+ *       - La valeur totale de la nourriture consommée
+ *       - Le prix d'achat total et le bénéfice du lot
  *     tags: [SituationLots]
  *     parameters:
  *       - in: query
@@ -59,48 +59,39 @@ const situationLotsController = require('../controllers/situationLots.controller
  *                       numero:
  *                         type: integer
  *                         description: Numéro du lot
- *                       nombreInitial:
- *                         type: integer
- *                         description: Nombre de poulets initial
- *                       prixAchatTotal:
- *                         type: number
- *                         description: Prix d'achat total du lot
- *                       valeurNourritureConsommee:
- *                         type: number
- *                         description: Valeur totale de la nourriture consommée
- *                       poidsMoyenParPoulet:
- *                         type: number
- *                         description: Poids moyen par poulet (en grammes)
- *                       prixVenteSansMort:
- *                         type: number
- *                         description: Prix de vente total sans compter les morts
- *                       nombreMorts:
- *                         type: integer
- *                         description: Nombre de poulets morts
- *                       nombreApresMort:
- *                         type: integer
- *                         description: Nombre de poulets restants
- *                       ageEnJour:
- *                         type: integer
- *                         description: Âge du lot en jours
  *                       ageEnSemaine:
  *                         type: number
  *                         description: Âge du lot en semaines
- *                       prixVenteAvecMort:
- *                         type: number
- *                         description: Prix de vente des poulets restants
- *                       nombreOeufs:
+ *                       nombreMorts:
  *                         type: integer
- *                         description: Nombre d'œufs restants
- *                       valeurOeufs:
+ *                         description: Nombre de poulets morts
+ *                      pouletRestant:
+ *                          type: integer  
+ *                          description: Nombre de poulets restants
+ *                       poidsMoyen:
  *                         type: number
- *                         description: Valeur des œufs restants
- *                       beneficeSansMort:
+ *                         description: Poids moyen des poulets restants (en grammes)
+ *                       poidsTotalRestant:
  *                         type: number
- *                         description: Bénéfice sans compter les poulets morts
- *                       beneficeAvecMort:
+ *                         description: Poids total des poulets restants (en grammes)
+ *                       nombreOeuf:
+ *                         type: integer
+ *                         description: Nombre d'oeufs restants
+ *                       prixVenteTotal:
  *                         type: number
- *                         description: Bénéfice en comptant les poulets morts
+ *                         description: Prix de vente total des poulets restants
+ *                       valeurOeufsRestants:
+ *                         type: number
+ *                         description: Valeur des oeufs restants
+ *                       valeurNourritureConsommee:
+ *                         type: number
+ *                         description: Valeur totale de la nourriture consommée
+ *                       prixAchatTotal:
+ *                         type: number
+ *                         description: Prix d'achat total du lot
+ *                       benefice:
+ *                         type: number
+ *                         description: Bénéfice total du lot (vente + oeufs - nourriture - achat)
  *       400:
  *         description: Paramètre date manquant
  *         content:

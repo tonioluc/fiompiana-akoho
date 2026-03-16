@@ -34,7 +34,10 @@ SELECT * FROM lot_akoho WHERE date_entree <= @date
 
 Pour chaque lot trouvé, on appelle `getSituationByIdAndDate(lot.Id_lot_akoho, date)` qui calcule individuellement :
 
-- Poids moyen, nourriture consommée, prix de vente, morts, œufs, bénéfices…
+- Age en semaine, morts, poids moyen et poids total restant
+- Nombre d'oeufs restants et leur valeur
+- Valeur de nourriture consommée et prix de vente total
+- Prix d'achat total et bénéfice
 - (Voir [situation-lot-akoho.md](situation-lot-akoho.md) pour le détail des formules)
 
 ### 2.3. Assembler la réponse
@@ -90,37 +93,29 @@ GET /api/situation-lots?date=2026-03-10
   "situations": [
     {
       "numero": 101,
-      "nombreInitial": 100,
-      "prixAchatTotal": 800000,
-      "valeurNourritureConsommee": 45000,
-      "poidsMoyenParPoulet": 350.5,
-      "prixVenteSansMort": 876250,
-      "nombreMorts": 10,
-      "nombreApresMort": 90,
-      "ageEnJour": 28,
       "ageEnSemaine": 4,
-      "prixVenteAvecMort": 788625,
-      "nombreOeufs": 200,
-      "valeurOeufs": 100000,
-      "beneficeSansMort": 131250,
-      "beneficeAvecMort": 43625
+      "nombreMorts": 10,
+      "poidsMoyen": 350.5,
+      "poidsTotalRestant": 31545,
+      "nombreOeuf": 200,
+      "prixVenteTotal": 788625,
+      "valeurOeufsRestants": 100000,
+      "valeurNourritureConsommee": 45000,
+      "prixAchatTotal": 800000,
+      "benefice": 43625
     },
     {
       "numero": 102,
-      "nombreInitial": 50,
-      "prixAchatTotal": 400000,
-      "valeurNourritureConsommee": 12000,
-      "poidsMoyenParPoulet": 210.0,
-      "prixVenteSansMort": 262500,
-      "nombreMorts": 3,
-      "nombreApresMort": 47,
-      "ageEnJour": 14,
       "ageEnSemaine": 2,
-      "prixVenteAvecMort": 246750,
-      "nombreOeufs": 0,
-      "valeurOeufs": 0,
-      "beneficeSansMort": -149500,
-      "beneficeAvecMort": -165250
+      "nombreMorts": 3,
+      "poidsMoyen": 210,
+      "poidsTotalRestant": 9870,
+      "nombreOeuf": 0,
+      "prixVenteTotal": 246750,
+      "valeurOeufsRestants": 0,
+      "valeurNourritureConsommee": 12000,
+      "prixAchatTotal": 400000,
+      "benefice": -165250
     }
   ]
 }

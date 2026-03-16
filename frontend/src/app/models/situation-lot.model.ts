@@ -1,20 +1,16 @@
 export interface SituationLot {
   numero: number;
-  nombreInitial: number;
-  prixAchatTotal: number;
-  valeurNourritureConsommee: number;
-  poidsMoyenSansMort: number;
-  poidsMoyenAvecMort: number;
-  prixVenteSansMort: number;
-  nombreMorts: number;
-  nombreApresMort: number;
-  ageEnJour: number;
   ageEnSemaine: number;
-  prixVenteAvecMort: number;
-  nombreOeufs: number;
-  valeurOeufs: number;
-  beneficeSansMort: number;
-  beneficeAvecMort: number;
+  nombreMorts: number;
+  pouletRestant: number;
+  poidsMoyen: number;
+  poidsTotalRestant: number;
+  nombreOeuf: number;
+  prixVenteTotal: number;
+  valeurOeufsRestants: number;
+  valeurNourritureConsommee: number;
+  prixAchatTotal: number;
+  benefice: number;
 }
 
 export interface SituationLotsResponse {

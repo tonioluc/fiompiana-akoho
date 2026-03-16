@@ -103,6 +103,7 @@ async function getSituationByIdAndDate(id, date) {
 
     // valeur des nourritures consommées
     const nourritureConsommePouletRestantEnGramme = await raceService.getSakafoAkoho(lotAkoho.age, lotAkoho.Id_race, lotAkoho.date_entree, date).totalGrammes * pouletRestant;
+    
     let nourritureConsommePouletMortEnGramme = 0;
     if (nombreMorts > 0) {
         const detailsMorts = await akohoMatyService.getDetailsByLotAkohoIdAndDate(id, date);
@@ -113,22 +114,31 @@ async function getSituationByIdAndDate(id, date) {
         }
     }
 
+    
+    
     const totalNourritureConsommeeEnGramme = nourritureConsommePouletRestantEnGramme + nourritureConsommePouletMortEnGramme;
     const valeurNourritureConsommee = totalNourritureConsommeeEnGramme * (await raceService.getById(lotAkoho.Id_race)).prix_sakafo;
+    console.log();
 
     // prix achat total
     const prixAchatTotal = lotAkoho.prix_achat * lotAkoho.nombre;
+
+    // bénéfice
+    const benefice = prixVenteTotal + valeurOeufsRestants - prixAchatTotal - valeurNourritureConsommee;
 
     return {
         numero,
         ageEnSemaine,
         nombreMorts,
+        pouletRestant,
         poidsMoyen: poidsMoyen.poidsGrammes,
         poidsTotalRestant,
         nombreOeuf,
         prixVenteTotal,
         valeurOeufsRestants,
-        valeurNourritureConsommee
+        valeurNourritureConsommee,
+        prixAchatTotal,
+        benefice
     }
 }
 

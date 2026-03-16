@@ -94,14 +94,15 @@ Calcul :
 ### 2.4. Prix de vente
 
 ```
-prixVenteSansMort = poidsMoyen × nombreInitial × prix_vente
-prixVenteAvecMort = poidsMoyen × nombreApresMort × prix_vente
+pouletRestant = nombreInitial - nombreMorts
+poidsTotalRestant = poidsMoyen × pouletRestant
+prixVenteTotal = poidsTotalRestant × prix_vente
 ```
 
 ### 2.5. Nombre d'œufs restants
 
 ```
-nombreOeufs = (total lot_atody.nombre) − (naissances/poussins éclos) − (œufs pourris/lamokany)
+nombreOeuf = (total lot_atody.nombre) − (naissances/poussins éclos) − (œufs pourris/lamokany)
 ```
 
 Les 3 sources de diminution d'un stock d'œufs :
@@ -109,19 +110,15 @@ Les 3 sources de diminution d'un stock d'œufs :
 2. **Œufs pourris** (`atody_lamokany`) : les œufs gâtés → inutilisables, perdus
 
 ```
-valeurOeufs = nombreOeufs × prix_vente_atody
+valeurOeufsRestants = nombreOeuf × prix_vente_atody
 ```
 
-### 2.6. Bénéfices
+### 2.6. Coûts intermédiaires
 
 ```
 prixAchatTotal = prix_achat × nombreInitial
-
-beneficeSansMort = prixVenteSansMort + valeurOeufs − prixAchatTotal − valeurNourritureConsommee
-beneficeAvecMort = prixVenteAvecMort + valeurOeufs − prixAchatTotal − valeurNourritureConsommee
+benefice = prixVenteTotal + valeurOeufsRestants - prixAchatTotal - valeurNourritureConsommee
 ```
-
-> La `valeurNourritureConsommee` est la **même** dans les deux cas car elle reflète la réalité : ce qui a été consommé l'a été, qu'on vende les poulets morts ou non. La différence se fait uniquement sur le prix de vente.
 
 ---
 
@@ -130,20 +127,16 @@ beneficeAvecMort = prixVenteAvecMort + valeurOeufs − prixAchatTotal − valeur
 ```json
 {
   "numero": 101,
-  "nombreInitial": 100,
-  "prixAchatTotal": 800000,
-  "valeurNourritureConsommee": 15000,
-  "poidsMoyenParPoulet": 350.5,
-  "prixVenteSansMort": 876250,
-  "nombreMorts": 50,
-  "nombreApresMort": 50,
-  "ageEnJour": 28,
   "ageEnSemaine": 4,
-  "prixVenteAvecMort": 438125,
-  "nombreOeufs": 200,
-  "valeurOeufs": 100000,
-  "beneficeSansMort": 161250,
-  "beneficeAvecMort": -276875
+  "nombreMorts": 50,
+  "poidsMoyen": 350.5,
+  "poidsTotalRestant": 17525,
+  "nombreOeuf": 200,
+  "prixVenteTotal": 438125,
+  "valeurOeufsRestants": 100000,
+  "valeurNourritureConsommee": 15000,
+  "prixAchatTotal": 800000,
+  "benefice": -276875
 }
 ```
 

@@ -66,19 +66,16 @@
             <thead class="table-dark">
               <tr>
                 <th scope="col">Lot</th>
-                <!-- <th scope="col" class="text-end">Nombre initial</th> -->
                 <th scope="col" class="text-end">Âge (sem.)</th>
-                <!-- <th scope="col" class="text-end">Poids moyen (g)</th> -->
                 <th scope="col" class="text-end">Morts</th>
-                <th scope="col" class="text-end">Poulets restants</th>
+                <th scope="col" class="text-end">Poulets Restants</th>
                 <th scope="col" class="text-end">Poids moyen (g)</th>
+                <th scope="col" class="text-end">Poids total restant (g)</th>
                 <th scope="col" class="text-end">Œufs</th>
-                <th scope="col" class="text-end">Prix achat</th>
-                <th scope="col" class="text-end">Nourriture</th>
-                <th scope="col" class="text-end">Valeur œufs</th>
-                <!-- <th scope="col" class="text-end">Vente (sans mort)</th> -->
-                <th scope="col" class="text-end">Prix de vente</th>
-                <!-- <th scope="col" class="text-end">Bénéfice (sans mort)</th> -->
+                <th scope="col" class="text-end">Prix vente total</th>
+                <th scope="col" class="text-end">Valeur œufs restants</th>
+                <th scope="col" class="text-end">Nourriture consommée</th>
+                <th scope="col" class="text-end">Prix achat total</th>
                 <th scope="col" class="text-end">Bénéfice</th>
               </tr>
             </thead>
@@ -86,30 +83,23 @@
               @for (item of situations(); track item.numero) {
                 <tr>
                   <td class="fw-semibold">n° {{ item.numero }}</td>
-                  <!-- <td class="text-end">{{ item.nombreInitial }}</td> -->
                   <td class="text-end">{{ item.ageEnSemaine }}</td>
-                  <!-- <td class="text-end">{{ formatNumber(item.poidsMoyenSansMort) }}</td> -->
                   <td class="text-end">{{ item.nombreMorts }}</td>
-                  <td class="text-end">{{ item.nombreApresMort }}</td>
-                  <td class="text-end">{{ formatNumber(item.poidsMoyenAvecMort) }}</td>
-                  <td class="text-end">{{ item.nombreOeufs }}</td>
-                  <td class="text-end">{{ formatCurrency(item.prixAchatTotal) }}</td>
+                  <td class="text-end">{{ formatNumber(item.pouletRestant) }}</td>
+                  <td class="text-end">{{ formatNumber(item.poidsMoyen) }}</td>
+                  <td class="text-end">{{ formatNumber(item.poidsTotalRestant) }}</td>
+                  <td class="text-end">{{ item.nombreOeuf }}</td>
+                  <td class="text-end">{{ formatCurrency(item.prixVenteTotal) }}</td>
+                  <td class="text-end">{{ formatCurrency(item.valeurOeufsRestants) }}</td>
                   <td class="text-end">{{ formatCurrency(item.valeurNourritureConsommee) }}</td>
-                  <td class="text-end">{{ formatCurrency(item.valeurOeufs) }}</td>
-                  <!-- <td class="text-end">{{ formatCurrency(item.prixVenteSansMort) }}</td> -->
-                  <td class="text-end">{{ formatCurrency(item.prixVenteAvecMort) }}</td>
-                  <!-- <td class="text-end" [class]="getBeneficeClass(item.beneficeSansMort)">
-                    {{ formatCurrency(item.beneficeSansMort) }}
-                  </td> -->
-                  <td class="text-end" [class]="getBeneficeClass(item.beneficeAvecMort)">
-                    {{ formatCurrency(item.beneficeAvecMort) }}
-                  </td>
+                  <td class="text-end">{{ formatCurrency(item.prixAchatTotal) }}</td>
+                  <td class="text-end" [class]="getBeneficeClass(item.benefice)">{{ formatCurrency(item.benefice) }}</td>
                 </tr>
               }
 
               @if (situations().length === 0) {
                 <tr>
-                    <td colspan="15" class="text-center text-muted py-4">
+                    <td colspan="11" class="text-center text-muted py-4">
                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                     Aucun lot trouvé pour cette date.
                   </td>

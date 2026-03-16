@@ -87,48 +87,39 @@ router.post('/', lotAkohoController.create);
  *                 numero:
  *                   type: integer
  *                   description: Numéro du lot
- *                 nombreInitial:
- *                   type: integer
- *                   description: Nombre de poulets initial
- *                 prixAchatTotal:
- *                   type: number
- *                   description: Prix d'achat total du lot
- *                 valeurNourritureConsommee:
- *                   type: number
- *                   description: Valeur de la nourriture consommée (sans mort)
- *                 poidsMoyenParPoulet:
- *                   type: number
- *                   description: Poids moyen par poulet en grammes
- *                 prixVenteSansMort:
- *                   type: number
- *                   description: Prix de vente total sans compter les morts
- *                 nombreMorts:
- *                   type: integer
- *                   description: Nombre de poulets morts
- *                 nombreApresMort:
- *                   type: integer
- *                   description: Nombre de poulets restants
- *                 ageEnJour:
- *                   type: integer
- *                   description: Age du lot en jours
  *                 ageEnSemaine:
  *                   type: number
  *                   description: Age du lot en semaines
- *                 prixVenteAvecMort:
- *                   type: number
- *                   description: Prix de vente des poulets restants (après mort)
- *                 nombreOeufs:
+ *                 nombreMorts:
  *                   type: integer
- *                   description: Nombre d'oeufs restants (total - naissances)
- *                 valeurOeufs:
+ *                   description: Nombre de poulets morts
+ *                pouletRestant:
+ *                  type: integer
+ *                   description: Nombre de poulets restants
+ *                 poidsMoyen:
  *                   type: number
- *                   description: Valeur des oeufs restants
- *                 beneficeSansMort:
+ *                   description: Poids moyen des poulets restants en grammes
+ *                 poidsTotalRestant:
  *                   type: number
- *                   description: Bénéfice sans compter les poulets morts
- *                 beneficeAvecMort:
+ *                   description: Poids total des poulets restants en grammes
+ *                 nombreOeuf:
+ *                   type: integer
+ *                   description: Nombre d'oeufs restants
+ *                 prixVenteTotal:
  *                   type: number
- *                   description: Bénéfice en comptant les poulets morts
+ *                   description: Prix de vente total des poulets restants
+ *                 valeurOeufsRestants:
+ *                   type: number
+ *                   description: Valeur totale des oeufs restants
+ *                 valeurNourritureConsommee:
+ *                   type: number
+ *                   description: Valeur totale de la nourriture consommée
+ *                 prixAchatTotal:
+ *                   type: number
+ *                   description: Prix d'achat total du lot
+ *                 benefice:
+ *                   type: number
+ *                   description: Bénéfice total du lot (vente + oeufs - nourriture - achat)
  *       400:
  *         description: Paramètre date manquant ou date invalide
  *       404:
