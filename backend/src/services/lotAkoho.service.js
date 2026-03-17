@@ -77,7 +77,7 @@ async function getSituationByIdAndDate(id, date) {
         error.status = 400;
         throw error;
     }
-    const jourDepuisEntree = Math.floor((dateObj - dateEntreeObj) / (24 * 60 * 60 * 1000));
+    const jourDepuisEntree = Math.floor((dateObj - dateEntreeObj) / (24 * 60 * 60 * 1000)) + 1; // plus 1 satria efa ao izy 1er jour
     const ageEnSemaine = parseFloat((lotAkoho.age + (jourDepuisEntree / 7)).toFixed(2));
 
     //nombre de mort 
@@ -109,7 +109,7 @@ async function getSituationByIdAndDate(id, date) {
         date
     );
     const nourritureConsommePouletRestantEnGramme = sakafoPouletRestant.totalGrammes * pouletRestant;
-    
+
     let nourritureConsommePouletMortEnGramme = 0;
     if (nombreMorts > 0) {
         const detailsMorts = await akohoMatyService.getDetailsByLotAkohoIdAndDate(id, date);
@@ -124,8 +124,8 @@ async function getSituationByIdAndDate(id, date) {
         }
     }
 
-    
-    
+
+
     const totalNourritureConsommeeEnGramme = nourritureConsommePouletRestantEnGramme + nourritureConsommePouletMortEnGramme;
     const valeurNourritureConsommee = totalNourritureConsommeeEnGramme * (await raceService.getById(lotAkoho.Id_race)).prix_sakafo;
     console.log(
