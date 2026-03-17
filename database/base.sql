@@ -24,6 +24,8 @@ CREATE TABLE race(
    prix_sakafo FLOAT,
    prix_vente FLOAT,
    prix_vente_atody FLOAT,
+   nombre_jour_foy INT,
+   capacite_pondaison INT,
    PRIMARY KEY(Id_race)
 );
 GO
@@ -45,10 +47,13 @@ CREATE TABLE lot_akoho(
    date_entree DATE,
    nombre INT,
    age INT,
+   nombre_akoho_vavy INT,
    prix_achat FLOAT,
+   Id_lot_atody INT,
    Id_race INT NOT NULL,
    PRIMARY KEY(Id_lot_akoho),
-   FOREIGN KEY(Id_race) REFERENCES race(Id_race)
+   FOREIGN KEY(Id_race) REFERENCES race(Id_race),
+   FOREIGN KEY(Id_lot_atody) REFERENCES lot_atody(Id_lot_atody)
 );
 GO
 
@@ -57,6 +62,8 @@ CREATE TABLE lot_atody(
    numero INT,
    date_entree DATE,
    nombre INT,
+   pourcentage_atody_lamokany INT,
+   pourcentage_vavy INT,
    Id_lot_akoho INT NOT NULL,
    PRIMARY KEY(Id_lot_atody),
    FOREIGN KEY(Id_lot_akoho) REFERENCES lot_akoho(Id_lot_akoho)
