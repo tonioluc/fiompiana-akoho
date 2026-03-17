@@ -39,6 +39,14 @@
   color: #0f172a;
 }
 
+.summary-value-income {
+  color: #15803d;
+}
+
+.summary-value-expense {
+  color: #b42318;
+}
+
 .summary-value-positive {
   color: #15803d;
 }

@@ -73,22 +73,22 @@
 
         <div class="summary-card">
           <div class="summary-label">Nourriture consommée</div>
-          <div class="summary-value summary-value-default">{{ formatCurrency(summary().nourriture) }}</div>
+          <div class="summary-value" [class]="getDepenseClass(summary().nourriture, true)">{{ formatCurrency(summary().nourriture) }}</div>
         </div>
 
         <div class="summary-card">
           <div class="summary-label">Prix de vente total</div>
-          <div class="summary-value summary-value-default">{{ formatCurrency(summary().prixVente) }}</div>
+          <div class="summary-value" [class]="getRevenuClass(summary().prixVente, true)">{{ formatCurrency(summary().prixVente) }}</div>
         </div>
 
         <div class="summary-card">
           <div class="summary-label">Prix d'achat total</div>
-          <div class="summary-value summary-value-default">{{ formatCurrency(summary().prixAchat) }}</div>
+          <div class="summary-value" [class]="getDepenseClass(summary().prixAchat, true)">{{ formatCurrency(summary().prixAchat) }}</div>
         </div>
 
         <div class="summary-card">
           <div class="summary-label">Valeur oeufs restants</div>
-          <div class="summary-value summary-value-default">{{ formatCurrency(summary().valeurOeufs) }}</div>
+          <div class="summary-value" [class]="getRevenuClass(summary().valeurOeufs, true)">{{ formatCurrency(summary().valeurOeufs) }}</div>
         </div>
 
         <div class="summary-card">
@@ -128,10 +128,10 @@
                   <td class="text-end">{{ formatNumber(item.poidsMoyen) }}</td>
                   <td class="text-end">{{ formatNumber(item.poidsTotalRestant) }}</td>
                   <td class="text-end">{{ item.nombreOeuf }}</td>
-                  <td class="text-end">{{ formatCurrency(item.prixVenteTotal) }}</td>
-                  <td class="text-end">{{ formatCurrency(item.valeurOeufsRestants) }}</td>
-                  <td class="text-end">{{ formatCurrency(item.valeurNourritureConsommee) }}</td>
-                  <td class="text-end">{{ formatCurrency(item.prixAchatTotal) }}</td>
+                  <td class="text-end" [class]="getRevenuClass(item.prixVenteTotal)">{{ formatCurrency(item.prixVenteTotal) }}</td>
+                  <td class="text-end" [class]="getRevenuClass(item.valeurOeufsRestants)">{{ formatCurrency(item.valeurOeufsRestants) }}</td>
+                  <td class="text-end" [class]="getDepenseClass(item.valeurNourritureConsommee)">{{ formatCurrency(item.valeurNourritureConsommee) }}</td>
+                  <td class="text-end" [class]="getDepenseClass(item.prixAchatTotal)">{{ formatCurrency(item.prixAchatTotal) }}</td>
                   <td class="text-end" [class]="getBeneficeClass(item.benefice)">{{ formatCurrency(item.benefice) }}</td>
                 </tr>
               }

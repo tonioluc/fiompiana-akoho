@@ -101,6 +101,16 @@ export class SituationLotsComponent implements OnInit {
     return '';
   }
 
+  getDepenseClass(value: number, isSummary = false): string {
+    if (value > 0) return isSummary ? 'summary-value-expense' : 'text-danger fw-semibold';
+    return isSummary ? 'summary-value-neutral' : '';
+  }
+
+  getRevenuClass(value: number, isSummary = false): string {
+    if (value > 0) return isSummary ? 'summary-value-income' : 'text-success fw-semibold';
+    return isSummary ? 'summary-value-neutral' : '';
+  }
+
   getBeneficeBadgeClass(value: number): string {
     if (value > 0) return 'summary-value-positive';
     if (value < 0) return 'summary-value-negative';
