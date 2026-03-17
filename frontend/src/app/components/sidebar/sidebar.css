@@ -10,8 +10,13 @@
 /* Le sidebar occupe toute la hauteur de l'écran */
 .sidebar {
   width: 260px;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #212529;  /* bg-dark de Bootstrap */
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 1030;
 }
 
 /* Style des liens du menu */
@@ -31,4 +36,11 @@
 .sidebar-link.active {
   color: #fff;
   background-color: #0d6efd;  /* primary de Bootstrap */
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: static;
+    height: auto;
+  }
 }
