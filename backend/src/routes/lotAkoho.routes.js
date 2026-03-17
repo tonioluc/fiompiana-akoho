@@ -93,8 +93,8 @@ router.post('/', lotAkohoController.create);
  *                 nombreMorts:
  *                   type: integer
  *                   description: Nombre de poulets morts
- *                pouletRestant:
- *                  type: integer
+ *                 pouletRestant:
+ *                   type: integer
  *                   description: Nombre de poulets restants
  *                 poidsMoyen:
  *                   type: number
