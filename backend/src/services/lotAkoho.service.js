@@ -87,7 +87,7 @@ async function getSituationByIdAndDate(id, date) {
     const pouletRestant = lotAkoho.nombre - nombreMorts;
 
     // poids moyen des poulets restants
-    const poidsMoyen = await raceService.getPoidsAkoho(lotAkoho.Id_race, lotAkoho.date_entree, date);
+    const poidsMoyen = await raceService.getPoidsAkoho(lotAkoho.age,lotAkoho.Id_race, lotAkoho.date_entree, date);
 
     // poids des poulets restants
     const poidsTotalRestant = pouletRestant * poidsMoyen.poidsGrammes;

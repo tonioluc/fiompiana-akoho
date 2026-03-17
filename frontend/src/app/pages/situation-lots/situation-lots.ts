@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SituationLotsService } from '../../services/situation-lots.service';
@@ -21,6 +21,30 @@ export class SituationLotsComponent implements OnInit {
   selectedDate = this.getTodayDate();
   loading = signal(false);
   errorMessage = signal('');
+
+  summary = computed(() => {
+    const items = this.situations();
+
+    return items.reduce(
+      (acc, item) => {
+        acc.benefice += item.benefice;
+        acc.nourriture += item.valeurNourritureConsommee;
+        acc.prixVente += item.prixVenteTotal;
+        acc.prixAchat += item.prixAchatTotal;
+        acc.valeurOeufs += item.valeurOeufsRestants;
+        acc.oeufs += item.nombreOeuf;
+        return acc;
+      },
+      {
+        benefice: 0,
+        nourriture: 0,
+        prixVente: 0,
+        prixAchat: 0,
+        valeurOeufs: 0,
+        oeufs: 0
+      }
+    );
+  });
 
   // Poids Akoho calculator
   races = signal<Race[]>([]);
@@ -75,6 +99,12 @@ export class SituationLotsComponent implements OnInit {
     if (value > 0) return 'text-success fw-bold';
     if (value < 0) return 'text-danger fw-bold';
     return '';
+  }
+
+  getBeneficeBadgeClass(value: number): string {
+    if (value > 0) return 'summary-value-positive';
+    if (value < 0) return 'summary-value-negative';
+    return 'summary-value-neutral';
   }
 
   private getTodayDate(): string {

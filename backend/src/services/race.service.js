@@ -56,7 +56,7 @@ async function deleteById(id) {
  * @param {string} dateFin   - Date de fin format YYYY-MM-DD
  * @returns {object} { raceId, raceName, dateDebut, dateFin, joursPresence, ageEnSemaine, poidsGrammes }
  */
-async function getPoidsAkoho(raceId, dateDebut, dateFin) {
+async function getPoidsAkoho(ageEntree ,raceId, dateDebut, dateFin) {
     const race = await getById(raceId);
     const descriptions = await descriptionRaceService.getAllByRaceId(raceId);
 
@@ -77,7 +77,7 @@ async function getPoidsAkoho(raceId, dateDebut, dateFin) {
     }
 
     // Cumul des variations de poids depuis la semaine 0
-    const ageExact = joursPresence / 7;
+    const ageExact = ageEntree + (joursPresence / 7);
     const ageEntier = Math.floor(ageExact);
     const fraction = ageExact - ageEntier;
 
@@ -129,7 +129,6 @@ async function getSakafoAkoho(ageEntree ,raceId, dateDebut, dateFin) {
     const fraction = ageExact - ageEntier;
     
     let totalGrammes = 0;
-    console.log('ETOOO');
     
     for (let w = ageEntree ; w <= ageEntier; w++) {
         if (descMap[w]) {
