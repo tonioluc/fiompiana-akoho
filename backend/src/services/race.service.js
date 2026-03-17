@@ -141,21 +141,6 @@ async function getSakafoAkoho(ageEntree, raceId, dateDebut, dateFin) {
         totalGrammes += descMap[semaineSuivante].lanja_sakafo * fraction;
     }
 
-    // for (let w = ageEntree ; w <= ageEntier; w++) {
-    //     if (descMap[w]) {
-    //         console.log(`Sakafo semaine ${w} : ${descMap[w].lanja_sakafo} grammes`);
-    //         totalGrammes += descMap[w].lanja_sakafo;
-    //     }
-    // }
-    // // Ajouter la fraction de la semaine suivante
-    // const semaineSuivante = ageEntier + 1;
-    // console.log(`Age semaine en entier ${ageEntier}`);
-
-    // if (fraction > 0 && descMap[semaineSuivante]) {
-    //     totalGrammes += descMap[semaineSuivante].lanja_sakafo * fraction;
-    //     console.log(`Sakafo semaine ${semaineSuivante} (fraction ${fraction.toFixed(2)}) : ${(descMap[semaineSuivante].lanja_sakafo * fraction).toFixed(2)} grammes`);
-    // }
-
     return {
         raceId: race.Id_race,
         raceName: race.nom,
