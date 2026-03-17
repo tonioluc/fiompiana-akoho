@@ -7,7 +7,7 @@ import { LotAkohoService } from '../../services/lot-akoho.service';
 import { NaissanceOeuf } from '../../models/naissance-oeuf.model';
 import { LotAtody } from '../../models/lot-atody.model';
 import { LotAkoho } from '../../models/lot-akoho.model';
-import { forkJoin } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-naissance-oeuf',
@@ -163,34 +163,43 @@ export class NaissanceOeufComponent implements OnInit {
       next: (lotAkohoParent) => {
         // 1. Créer la naissance_oeuf
         this.naissanceOeufService.create(this.formData).subscribe({
-          next: (naissanceCreated) => {
-            // 2. Créer le nouveau lot_akoho (poussins nés)
-            const newLotAkoho: LotAkoho = {
-              Id_lot_akoho: null,
-              numero: this.generateNewLotNumero(),
-              date_entree: this.formData.date_naissance,
-              nombre: this.formData.nombre_poussin || 0,
-              age: 0,
-              prix_achat: 0,
-              Id_race: lotAkohoParent.Id_race
-            };
+          next: () => {
+            this.generateNewLotNumero().subscribe({
+              next: (newNumero) => {
+                // 2. Créer le nouveau lot_akoho (poussins nés)
+                const newLotAkoho: LotAkoho = {
+                  Id_lot_akoho: null,
+                  numero: newNumero,
+                  date_entree: this.formData.date_naissance,
+                  nombre: this.formData.nombre_poussin || 0,
+                  age: 0,
+                  prix_achat: 0,
+                  Id_race: lotAkohoParent.Id_race
+                };
 
-            this.lotAkohoService.create(newLotAkoho).subscribe({
-              next: (lotCreated) => {
-                this.saving.set(false);
-                this.successMessage.set(
-                  `Naissance enregistrée ! Nouveau lot de poulets n°${lotCreated.numero} créé (${newLotAkoho.nombre} poussins, prix achat : 0 Ar).`
-                );
-                this.loadAll();
-                this.closeModal();
+                this.lotAkohoService.create(newLotAkoho).subscribe({
+                  next: (lotCreated) => {
+                    this.saving.set(false);
+                    this.successMessage.set(
+                      `Naissance enregistrée ! Nouveau lot de poulets n°${lotCreated.numero} créé (${newLotAkoho.nombre} poussins, prix achat : 0 Ar).`
+                    );
+                    this.loadAll();
+                    this.closeModal();
+                  },
+                  error: (err) => {
+                    this.saving.set(false);
+                    this.successMessage.set('Naissance enregistrée, mais erreur lors de la création du lot de poulets.');
+                    this.errorMessage.set(err.error?.message || 'Erreur lors de la création du lot de poulets.');
+                    this.loadAll();
+                    this.closeModal();
+                    console.error('Erreur création lot akoho:', err);
+                  }
+                });
               },
               error: (err) => {
                 this.saving.set(false);
-                this.successMessage.set('Naissance enregistrée, mais erreur lors de la création du lot de poulets.');
-                this.errorMessage.set(err.error?.message || 'Erreur lors de la création du lot de poulets.');
-                this.loadAll();
-                this.closeModal();
-                console.error('Erreur création lot akoho:', err);
+                this.errorMessage.set(err.error?.message || 'Erreur lors de la génération du numéro de lot.');
+                console.error('Erreur génération numéro lot akoho:', err);
               }
             });
           },
@@ -248,9 +257,13 @@ export class NaissanceOeufComponent implements OnInit {
     return date.toLocaleDateString('fr-FR');
   }
 
-  private generateNewLotNumero(): number {
-    // Générer un numéro basé sur le timestamp pour éviter les doublons
-    return Math.floor(Date.now() / 1000) % 100000;
+  private generateNewLotNumero(): Observable<number> {
+    return this.lotAkohoService.getAll().pipe(
+      map(lots => {
+        const maxNumero = lots.reduce((max, lot) => lot.numero > max ? lot.numero : max, 0);
+        return maxNumero + 1;
+      })
+    );
   }
 
   private getEmptyForm(): NaissanceOeuf {
