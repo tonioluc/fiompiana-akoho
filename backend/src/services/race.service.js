@@ -56,7 +56,7 @@ async function deleteById(id) {
  * @param {string} dateFin   - Date de fin format YYYY-MM-DD
  * @returns {object} { raceId, raceName, dateDebut, dateFin, joursPresence, ageEnSemaine, poidsGrammes }
  */
-async function getPoidsAkoho(ageEntree ,raceId, dateDebut, dateFin) {
+async function getPoidsAkoho(ageEntree, raceId, dateDebut, dateFin) {
     const race = await getById(raceId);
     const descriptions = await descriptionRaceService.getAllByRaceId(raceId);
 
@@ -104,10 +104,10 @@ async function getPoidsAkoho(ageEntree ,raceId, dateDebut, dateFin) {
     };
 }
 
-async function getSakafoAkoho(ageEntree ,raceId, dateDebut, dateFin) {
+async function getSakafoAkoho(ageEntree, raceId, dateDebut, dateFin) {
     const race = await getById(raceId);
     const descriptions = await descriptionRaceService.getAllByRaceId(raceId);
-    
+
     const dateDebutObj = new Date(dateDebut);
     const dateFinObj = new Date(dateFin);
     const joursPresence = Math.floor((dateFinObj - dateDebutObj) / (24 * 60 * 60 * 1000)) + 1;
@@ -127,23 +127,34 @@ async function getSakafoAkoho(ageEntree ,raceId, dateDebut, dateFin) {
     const ageExact = ageEntree + (joursPresence / 7);
     const ageEntier = Math.floor(ageExact);
     const fraction = ageExact - ageEntier;
-    
+
     let totalGrammes = 0;
-    
-    for (let w = ageEntree ; w < ageEntier; w++) {
+
+    for (let w = ageEntree + 1; w <= ageEntier; w++) {
         if (descMap[w]) {
-            console.log(`Sakafo semaine ${w} : ${descMap[w].lanja_sakafo} grammes`);
             totalGrammes += descMap[w].lanja_sakafo;
         }
     }
     // Ajouter la fraction de la semaine suivante
     const semaineSuivante = ageEntier + 1;
-    console.log(`Age semaine en entier ${ageEntier}`);
-    
     if (fraction > 0 && descMap[semaineSuivante]) {
         totalGrammes += descMap[semaineSuivante].lanja_sakafo * fraction;
-        console.log(`Sakafo semaine ${semaineSuivante} (fraction ${fraction.toFixed(2)}) : ${(descMap[semaineSuivante].lanja_sakafo * fraction).toFixed(2)} grammes`);
     }
+
+    // for (let w = ageEntree ; w <= ageEntier; w++) {
+    //     if (descMap[w]) {
+    //         console.log(`Sakafo semaine ${w} : ${descMap[w].lanja_sakafo} grammes`);
+    //         totalGrammes += descMap[w].lanja_sakafo;
+    //     }
+    // }
+    // // Ajouter la fraction de la semaine suivante
+    // const semaineSuivante = ageEntier + 1;
+    // console.log(`Age semaine en entier ${ageEntier}`);
+
+    // if (fraction > 0 && descMap[semaineSuivante]) {
+    //     totalGrammes += descMap[semaineSuivante].lanja_sakafo * fraction;
+    //     console.log(`Sakafo semaine ${semaineSuivante} (fraction ${fraction.toFixed(2)}) : ${(descMap[semaineSuivante].lanja_sakafo * fraction).toFixed(2)} grammes`);
+    // }
 
     return {
         raceId: race.Id_race,
