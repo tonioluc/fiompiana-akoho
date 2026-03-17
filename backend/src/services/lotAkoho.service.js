@@ -108,6 +108,7 @@ async function getSituationByIdAndDate(id, date) {
         lotAkoho.date_entree,
         date
     );
+    console.log('sakafo poulet restant :', sakafoPouletRestant);
     const nourritureConsommePouletRestantEnGramme = sakafoPouletRestant.totalGrammes * pouletRestant;
 
     let nourritureConsommePouletMortEnGramme = 0;
