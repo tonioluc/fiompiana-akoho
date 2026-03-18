@@ -37,5 +37,5 @@ VALUES
 GO
 
 INSERT INTO lot_akoho (numero, date_entree, nombre, age, nombre_akoho_vavy, prix_achat, Id_race)
-VALUES (1, '2026-01-01', 500, 0, 250, 500, 1);
+VALUES (1, '2026-01-01', 500, 0, 500, 500, 1);
 GO
