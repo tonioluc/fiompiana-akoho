@@ -1,8 +1,8 @@
 USE gestion_akoho;
 GO
 
-INSERT INTO race ( nom, prix_sakafo, prix_vente, prix_vente_atody)
-VALUES ('borboneze', 5, 15, 500);
+INSERT INTO race (nom, prix_sakafo, prix_vente, prix_vente_atody, nombre_jour_foy, capacite_pondaison)
+VALUES ('borboneze', 5, 15, 500, 30, 40);
 GO
 
 
@@ -36,6 +36,6 @@ VALUES
 (25, 0,   600, 1);
 GO
 
-INSERT INTO lot_akoho (numero, date_entree, nombre, age, prix_achat, Id_race)
-VALUES (1, '2026-01-01', 500, 0, 500, 1);
+INSERT INTO lot_akoho (numero, date_entree, nombre, age, nombre_akoho_vavy, prix_achat, Id_race)
+VALUES (1, '2026-01-01', 500, 0, 250, 500, 1);
 GO
