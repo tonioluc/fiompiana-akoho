@@ -173,6 +173,7 @@ export class NaissanceOeufComponent implements OnInit {
                   date_entree: this.formData.date_naissance,
                   nombre: this.formData.nombre_poussin || 0,
                   age: 0,
+                  nombre_akoho_vavy: 0,
                   prix_achat: 0,
                   Id_race: lotAkohoParent.Id_race
                 };

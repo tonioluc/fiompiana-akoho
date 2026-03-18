@@ -4,6 +4,7 @@ export interface LotAkoho {
   date_entree: string;
   nombre: number;
   age: number;
+  nombre_akoho_vavy: number;
   prix_achat: number;
   Id_race: number;
 }

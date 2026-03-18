@@ -30,16 +30,32 @@ async function getByNumero(numero) {
 
 async function create(data) {
     if (data.numero == null || data.date_entree == null || data.nombre == null ||
-        data.age == null || data.prix_achat == null || data.Id_race == null) {
-        const error = new Error('Champs obligatoires : numero, date_entree, nombre, age, prix_achat, Id_race');
+        data.age == null || data.nombre_akoho_vavy == null || data.prix_achat == null || data.Id_race == null) {
+        const error = new Error('Champs obligatoires : numero, date_entree, nombre, age, nombre_akoho_vavy, prix_achat, Id_race');
         error.status = 400;
         throw error;
     }
+
+    if (data.nombre_akoho_vavy < 0 || data.nombre_akoho_vavy > data.nombre) {
+        const error = new Error('Le nombre de poules femelles doit être entre 0 et le nombre total de poulets.');
+        error.status = 400;
+        throw error;
+    }
+
     return await lotAkohoRepository.create(data);
 }
 
 async function update(id, data) {
     await getById(id);
+
+    if (data.nombre_akoho_vavy != null && data.nombre != null) {
+        if (data.nombre_akoho_vavy < 0 || data.nombre_akoho_vavy > data.nombre) {
+            const error = new Error('Le nombre de poules femelles doit être entre 0 et le nombre total de poulets.');
+            error.status = 400;
+            throw error;
+        }
+    }
+
     const updated = await lotAkohoRepository.update(id, data);
     if (!updated) {
         const error = new Error(`Échec de la mise à jour de LotAkoho id ${id}`);

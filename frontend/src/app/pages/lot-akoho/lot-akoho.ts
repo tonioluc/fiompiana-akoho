@@ -77,6 +77,11 @@ export class LotAkohoComponent implements OnInit {
   save(): void {
     this.clearMessages();
 
+    if (this.formData.nombre_akoho_vavy < 0 || this.formData.nombre_akoho_vavy > this.formData.nombre) {
+      this.errorMessage.set('Le nombre de poules femelles doit être entre 0 et le nombre total de poulets.');
+      return;
+    }
+
     if (this.formMode === 'create') {
       this.lotAkohoService.create(this.formData).subscribe({
         next: () => {
@@ -136,6 +141,7 @@ export class LotAkohoComponent implements OnInit {
       date_entree: '',
       nombre: 0,
       age: 0,
+      nombre_akoho_vavy: 0,
       prix_achat: 0,
       Id_race: 0
     };

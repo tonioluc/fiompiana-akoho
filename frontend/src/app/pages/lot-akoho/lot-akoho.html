@@ -61,6 +61,7 @@
                 <th scope="col">Date d'entrée</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Âge (semaines)</th>
+                <th scope="col">Poules femelles</th>
                 <th scope="col">Prix d'achat (Ar)</th>
                 <th scope="col">Race</th>
                 <th scope="col" class="text-center">Actions</th>
@@ -74,6 +75,7 @@
                   <td>{{ formatDate(item.date_entree) }}</td>
                   <td>{{ item.nombre }}</td>
                   <td>{{ item.age }}</td>
+                  <td>{{ item.nombre_akoho_vavy }}</td>
                   <td>{{ item.prix_achat }}</td>
                   <td>{{ getRaceName(item.Id_race) }}</td>
                   <td class="text-center">
@@ -95,7 +97,7 @@
 
               @if (lotsAkoho().length === 0) {
                 <tr>
-                  <td colspan="8" class="text-center text-muted py-4">
+                  <td colspan="9" class="text-center text-muted py-4">
                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                     Aucun lot de poulets trouvé.
                   </td>
@@ -173,6 +175,18 @@
                      name="age"
                      [(ngModel)]="formData.age"
                      placeholder="Ex: 0"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label for="nombreAkohoVavy" class="form-label">Nombre de poules femelles</label>
+              <input type="number"
+                     class="form-control"
+                     id="nombreAkohoVavy"
+                     name="nombreAkohoVavy"
+                     [(ngModel)]="formData.nombre_akoho_vavy"
+                     placeholder="Ex: 50"
+                     min="0"
                      required>
             </div>
 

@@ -14,24 +14,25 @@ async function findById(id) {
     return result.recordset[0] || null;
 }
 
-async function create({ numero, date_entree, nombre, age, prix_achat, Id_race }) {
+async function create({ numero, date_entree, nombre, age, nombre_akoho_vavy, prix_achat, Id_race }) {
     const pool = await getPool();
     const result = await pool.request()
         .input('numero', sql.Int, numero)
         .input('date_entree', sql.Date, date_entree)
         .input('nombre', sql.Int, nombre)
         .input('age', sql.Int, age)
+        .input('nombre_akoho_vavy', sql.Int, nombre_akoho_vavy)
         .input('prix_achat', sql.Float, prix_achat)
         .input('Id_race', sql.Int, Id_race)
         .query(`
-            INSERT INTO lot_akoho (numero, date_entree, nombre, age, prix_achat, Id_race)
+            INSERT INTO lot_akoho (numero, date_entree, nombre, age, nombre_akoho_vavy, prix_achat, Id_race)
             OUTPUT INSERTED.*
-            VALUES (@numero, @date_entree, @nombre, @age, @prix_achat, @Id_race)
+            VALUES (@numero, @date_entree, @nombre, @age, @nombre_akoho_vavy, @prix_achat, @Id_race)
         `);
     return result.recordset[0];
 }
 
-async function update(id, { numero, date_entree, nombre, age, prix_achat, Id_race }) {
+async function update(id, { numero, date_entree, nombre, age, nombre_akoho_vavy, prix_achat, Id_race }) {
     const pool = await getPool();
     const result = await pool.request()
         .input('id', sql.Int, id)
@@ -39,12 +40,14 @@ async function update(id, { numero, date_entree, nombre, age, prix_achat, Id_rac
         .input('date_entree', sql.Date, date_entree)
         .input('nombre', sql.Int, nombre)
         .input('age', sql.Int, age)
+        .input('nombre_akoho_vavy', sql.Int, nombre_akoho_vavy)
         .input('prix_achat', sql.Float, prix_achat)
         .input('Id_race', sql.Int, Id_race)
         .query(`
             UPDATE lot_akoho
             SET numero = @numero, date_entree = @date_entree, nombre = @nombre,
-                age = @age, prix_achat = @prix_achat, Id_race = @Id_race
+                age = @age, nombre_akoho_vavy = @nombre_akoho_vavy,
+                prix_achat = @prix_achat, Id_race = @Id_race
             WHERE Id_lot_akoho = @id;
             SELECT * FROM lot_akoho WHERE Id_lot_akoho = @id;
         `);

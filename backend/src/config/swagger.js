@@ -65,25 +65,27 @@ const options = {
                 // ─── LotAkoho ────────────────────────────────────────────
                 LotAkoho: {
                     type: 'object',
-                    required: ['numero', 'date_entree', 'nombre', 'age', 'prix_achat', 'Id_race'],
+                    required: ['numero', 'date_entree', 'nombre', 'age', 'nombre_akoho_vavy', 'prix_achat', 'Id_race'],
                     properties: {
                         Id_lot_akoho: { type: 'integer', example: 1 },
                         numero: { type: 'integer', example: 101 },
                         date_entree: { type: 'string', format: 'date', example: '2025-01-15' },
                         nombre: { type: 'integer', example: 50 },
                         age: { type: 'integer', example: 7, description: 'Âge en semaines à l\'entrée' },
+                        nombre_akoho_vavy: { type: 'integer', example: 25, description: 'Nombre de poules femelles dans le lot' },
                         prix_achat: { type: 'number', format: 'float', example: 8000.0 },
                         Id_race: { type: 'integer', example: 1 },
                     },
                 },
                 LotAkohoInput: {
                     type: 'object',
-                    required: ['numero', 'date_entree', 'nombre', 'age', 'prix_achat', 'Id_race'],
+                    required: ['numero', 'date_entree', 'nombre', 'age', 'nombre_akoho_vavy', 'prix_achat', 'Id_race'],
                     properties: {
                         numero: { type: 'integer', example: 101 },
                         date_entree: { type: 'string', format: 'date', example: '2025-01-15' },
                         nombre: { type: 'integer', example: 50 },
                         age: { type: 'integer', example: 7 },
+                        nombre_akoho_vavy: { type: 'integer', example: 25 },
                         prix_achat: { type: 'number', format: 'float', example: 8000.0 },
                         Id_race: { type: 'integer', example: 1 },
                     },
