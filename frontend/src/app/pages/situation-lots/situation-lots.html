@@ -123,8 +123,8 @@
                 <th scope="col" class="text-end">Valeur œufs restants</th>
                 <th scope="col" class="text-end">Nourriture consommée</th>
                 <th scope="col" class="text-end">Prix achat total</th>
-                <th scope="col" class="text-end">Bénéfice</th>
                 <th scope="col" class="text-end">Perte (œufs)</th>
+                <th scope="col" class="text-end">Bénéfice</th>
               </tr>
             </thead>
             <tbody>
@@ -141,8 +141,8 @@
                   <td class="text-end" [class]="getRevenuClass(item.valeurOeufsRestants)">{{ formatCurrency(item.valeurOeufsRestants) }}</td>
                   <td class="text-end" [class]="getDepenseClass(item.valeurNourritureConsommee)">{{ formatCurrency(item.valeurNourritureConsommee) }}</td>
                   <td class="text-end" [class]="getDepenseClass(item.prixAchatTotal)">{{ formatCurrency(item.prixAchatTotal) }}</td>
-                  <td class="text-end" [class]="getBeneficeClass(item.benefice)">{{ formatCurrency(item.benefice) }}</td>
                   <td class="text-end" [class]="getDepenseClass(item.perte)">{{ formatCurrency(item.perte) }}</td>
+                  <td class="text-end" [class]="getBeneficeClass(item.benefice)">{{ formatCurrency(item.benefice) }}</td>
                 </tr>
               }
 
@@ -162,7 +162,7 @@
       <div class="card-footer text-muted">
         <small>
           <i class="bi bi-database me-1"></i>
-          {{ situations().length }} lot(s) au {{ selectedDate }}
+          {{ situations().length }} lot(s)
         </small>
       </div>
     </div>
