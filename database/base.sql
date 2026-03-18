@@ -1,22 +1,25 @@
--- Créer la base si elle n'existe pas
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'gestion_akoho')
+USE master;
+GO
+IF DB_ID('gestion_akoho') IS NOT NULL
 BEGIN
-    CREATE DATABASE gestion_akoho;
+ALTER DATABASE gestion_akoho SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+DROP DATABASE gestion_akoho;
 END
 GO
-
+CREATE DATABASE gestion_akoho;
+GO
 USE gestion_akoho;
 GO
 
 -- Drop tables si elles existent déjà (ordre inverse des FK)
-IF OBJECT_ID('akoho_maty', 'U') IS NOT NULL DROP TABLE akoho_maty;
-IF OBJECT_ID('naissance_oeuf', 'U') IS NOT NULL DROP TABLE naissance_oeuf;
-IF OBJECT_ID('atody_lamokany', 'U') IS NOT NULL DROP TABLE atody_lamokany;
-IF OBJECT_ID('lot_atody', 'U') IS NOT NULL DROP TABLE lot_atody;
-IF OBJECT_ID('lot_akoho', 'U') IS NOT NULL DROP TABLE lot_akoho;
-IF OBJECT_ID('description_race', 'U') IS NOT NULL DROP TABLE description_race;
-IF OBJECT_ID('race', 'U') IS NOT NULL DROP TABLE race;
-GO
+-- IF OBJECT_ID('akoho_maty', 'U') IS NOT NULL DROP TABLE akoho_maty;
+-- IF OBJECT_ID('atody_lamokany', 'U') IS NOT NULL DROP TABLE atody_lamokany;
+-- IF OBJECT_ID('lot_atody', 'U') IS NOT NULL DROP TABLE lot_atody;
+-- IF OBJECT_ID('naissance_oeuf', 'U') IS NOT NULL DROP TABLE naissance_oeuf;
+-- IF OBJECT_ID('lot_akoho', 'U') IS NOT NULL DROP TABLE lot_akoho;
+-- IF OBJECT_ID('description_race', 'U') IS NOT NULL DROP TABLE description_race;
+-- IF OBJECT_ID('race', 'U') IS NOT NULL DROP TABLE race;
+-- GO
 
 CREATE TABLE race(
    Id_race INT IDENTITY,
