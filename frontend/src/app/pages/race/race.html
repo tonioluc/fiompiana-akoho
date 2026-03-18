@@ -56,7 +56,6 @@
           <table class="table table-hover table-striped mb-0">
             <thead class="table-dark">
               <tr>
-                <th scope="col">#ID</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Prix Sakafo (Ar)</th>
                 <th scope="col">Prix Vente (Ar)</th>
@@ -69,7 +68,6 @@
             <tbody>
               @for (item of races(); track item.Id_race) {
                 <tr>
-                  <td>{{ item.Id_race }}</td>
                   <td>{{ item.nom }}</td>
                   <td>{{ item.prix_sakafo }}</td>
                   <td>{{ item.prix_vente }}</td>

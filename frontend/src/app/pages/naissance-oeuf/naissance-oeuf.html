@@ -56,7 +56,6 @@
           <table class="table table-hover table-striped mb-0">
             <thead class="table-dark">
               <tr>
-                <th scope="col">#ID</th>
                 <th scope="col">Date de naissance</th>
                 <th scope="col">Nombre de poussins</th>
                 <th scope="col">Lot d'œufs</th>
@@ -66,7 +65,6 @@
             <tbody>
               @for (item of items(); track item.Id_naissance_oeuf) {
                 <tr>
-                  <td>{{ item.Id_naissance_oeuf }}</td>
                   <td>{{ formatDate(item.date_naissance) }}</td>
                   <td>{{ item.nombre_poussin }}</td>
                   <td>{{ getLotAtodyNumero(item.Id_lot_atody) }}</td>
