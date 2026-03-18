@@ -19,22 +19,24 @@ const options = {
                 // ─── Race ────────────────────────────────────────────────
                 Race: {
                     type: 'object',
-                    required: ['nom', 'prix_sakafo', 'prix_vente', 'prix_vente_atody'],
+                    required: ['nom', 'prix_sakafo', 'prix_vente_lahy', 'prix_vente_vavy', 'prix_vente_atody'],
                     properties: {
                         Id_race: { type: 'integer', example: 1 },
                         nom: { type: 'string', example: 'Rhode Island' },
                         prix_sakafo: { type: 'number', format: 'float', example: 1500.0 },
-                        prix_vente: { type: 'number', format: 'float', example: 25000.0 },
+                        prix_vente_lahy: { type: 'number', format: 'float', example: 26000.0 },
+                        prix_vente_vavy: { type: 'number', format: 'float', example: 24000.0 },
                         prix_vente_atody: { type: 'number', format: 'float', example: 500.0 },
                     },
                 },
                 RaceInput: {
                     type: 'object',
-                    required: ['nom', 'prix_sakafo', 'prix_vente', 'prix_vente_atody'],
+                    required: ['nom', 'prix_sakafo', 'prix_vente_lahy', 'prix_vente_vavy', 'prix_vente_atody'],
                     properties: {
                         nom: { type: 'string', example: 'Rhode Island' },
                         prix_sakafo: { type: 'number', format: 'float', example: 1500.0 },
-                        prix_vente: { type: 'number', format: 'float', example: 25000.0 },
+                        prix_vente_lahy: { type: 'number', format: 'float', example: 26000.0 },
+                        prix_vente_vavy: { type: 'number', format: 'float', example: 24000.0 },
                         prix_vente_atody: { type: 'number', format: 'float', example: 500.0 },
                     },
                 },

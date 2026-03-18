@@ -16,8 +16,8 @@ async function getById(id) {
 }
 
 async function create(data) {
-    if (!data.nom || data.prix_sakafo == null || data.prix_vente == null || data.prix_vente_atody == null) {
-        const error = new Error('Champs obligatoires : nom, prix_sakafo, prix_vente, prix_vente_atody');
+    if (!data.nom || data.prix_sakafo == null || data.prix_vente_lahy == null || data.prix_vente_vavy == null || data.prix_vente_atody == null) {
+        const error = new Error('Champs obligatoires : nom, prix_sakafo, prix_vente_lahy, prix_vente_vavy, prix_vente_atody');
         error.status = 400;
         throw error;
     }

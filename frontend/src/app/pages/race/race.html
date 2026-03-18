@@ -58,7 +58,8 @@
               <tr>
                 <th scope="col">Nom</th>
                 <th scope="col">Prix Sakafo (Ar)</th>
-                <th scope="col">Prix Vente (Ar)</th>
+                <th scope="col">Prix Vente Lahy (Ar)</th>
+                <th scope="col">Prix Vente Vavy (Ar)</th>
                 <th scope="col">Prix Vente Atody (Ar)</th>
                 <th scope="col">Nombre Jour Foy</th>
                 <th scope="col">Capacité Pondaison</th>
@@ -70,7 +71,8 @@
                 <tr>
                   <td>{{ item.nom }}</td>
                   <td>{{ item.prix_sakafo }}</td>
-                  <td>{{ item.prix_vente }}</td>
+                  <td>{{ item.prix_vente_lahy }}</td>
+                  <td>{{ item.prix_vente_vavy }}</td>
                   <td>{{ item.prix_vente_atody }}</td>
                   <td>{{ item.nombre_jour_foy }}</td>
                   <td>{{ item.capacite_pondaison }}</td>
@@ -93,7 +95,7 @@
 
               @if (races().length === 0) {
                 <tr>
-                  <td colspan="8" class="text-center text-muted py-4">
+                  <td colspan="9" class="text-center text-muted py-4">
                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                     Aucune race trouvée.
                   </td>
@@ -155,16 +157,28 @@
             </div>
 
             <div class="mb-3">
-              <label for="prixVente" class="form-label">Prix Vente (Ar)</label>
+              <label for="prixVenteLahy" class="form-label">Prix Vente Lahy (Ar)</label>
               <input type="number"
                      class="form-control"
-                     id="prixVente"
-                     name="prixVente"
-                     [(ngModel)]="formData.prix_vente"
+                 id="prixVenteLahy"
+                 name="prixVenteLahy"
+                 [(ngModel)]="formData.prix_vente_lahy"
                      placeholder="Ex: 25000"
                      step="0.01"
                      required>
             </div>
+
+              <div class="mb-3">
+              <label for="prixVenteVavy" class="form-label">Prix Vente Vavy (Ar)</label>
+              <input type="number"
+                 class="form-control"
+                 id="prixVenteVavy"
+                 name="prixVenteVavy"
+                 [(ngModel)]="formData.prix_vente_vavy"
+                 placeholder="Ex: 24000"
+                 step="0.01"
+                 required>
+              </div>
 
             <div class="mb-3">
               <label for="prixVenteAtody" class="form-label">Prix Vente Atody (Ar)</label>

@@ -1,8 +1,8 @@
 USE gestion_akoho;
 GO
 
-INSERT INTO race (nom, prix_sakafo, prix_vente, prix_vente_atody, nombre_jour_foy, capacite_pondaison)
-VALUES ('borboneze', 5, 15, 500, 30, 40);
+INSERT INTO race (nom, prix_sakafo, prix_vente_lahy, prix_vente_vavy, prix_vente_atody, nombre_jour_foy, capacite_pondaison)
+VALUES ('borboneze', 5, 20, 15, 500, 30, 40);
 GO
 
 

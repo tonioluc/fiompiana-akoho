@@ -114,11 +114,23 @@ async function getSituationByIdAndDate(id, date) {
     // nombre d'oeuf restants
     const nombreOeuf = await lotAtodyService.getNombreOeufsByLotAkohoIdAndDate(id, date);
 
-    // prix de vente total des poulets restants
-    const prixVenteTotal = poidsTotalRestant * (await raceService.getById(lotAkoho.Id_race)).prix_vente;
+    // Répartition des survivants par sexe.
+    // Sans suivi du sexe dans akoho_maty, on applique un taux de survie proportionnel.
+    const race = await raceService.getById(lotAkoho.Id_race);
+    const tauxSurvie = lotAkoho.nombre > 0 ? (pouletRestant / lotAkoho.nombre) : 0;
+    const nombreVavyRestant = Math.max(0, Math.min(pouletRestant, Math.round(lotAkoho.nombre_akoho_vavy * tauxSurvie)));
+    const nombreLahyRestant = Math.max(0, pouletRestant - nombreVavyRestant);
+
+    const poidsVavyRestant = nombreVavyRestant * poidsMoyen.poidsGrammes;
+    const poidsLahyRestant = nombreLahyRestant * poidsMoyen.poidsGrammes;
+
+    // prix de vente total des poulets restants (mâles + femelles)
+    const prixVenteTotal =
+        (poidsLahyRestant * race.prix_vente_lahy) +
+        (poidsVavyRestant * race.prix_vente_vavy);
 
     // valeur totale des oeufs restants
-    const valeurOeufsRestants = nombreOeuf * (await raceService.getById(lotAkoho.Id_race)).prix_vente_atody;
+    const valeurOeufsRestants = nombreOeuf * race.prix_vente_atody;
 
     // valeur des nourritures consommées
     const sakafoPouletRestant = await raceService.getSakafoAkoho(
@@ -147,7 +159,7 @@ async function getSituationByIdAndDate(id, date) {
 
 
     const totalNourritureConsommeeEnGramme = nourritureConsommePouletRestantEnGramme + nourritureConsommePouletMortEnGramme;
-    const valeurNourritureConsommee = totalNourritureConsommeeEnGramme * (await raceService.getById(lotAkoho.Id_race)).prix_sakafo;
+    const valeurNourritureConsommee = totalNourritureConsommeeEnGramme * race.prix_sakafo;
     console.log(
         'nourriture consommée pour les poulets restants (en grammes) :', nourritureConsommePouletRestantEnGramme,
         '\nnourriture consommée pour les poulets morts (en grammes) :', nourritureConsommePouletMortEnGramme,
@@ -169,6 +181,8 @@ async function getSituationByIdAndDate(id, date) {
         ageEnSemaine,
         nombreMorts,
         pouletRestant,
+        nombreLahyRestant,
+        nombreVavyRestant,
         poidsMoyen: poidsMoyen.poidsGrammes,
         poidsTotalRestant,
         nombreOeuf,
