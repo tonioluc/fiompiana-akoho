@@ -41,8 +41,8 @@ export class SidebarComponent {
     { label: 'Lots de Poulets', icon: 'bi-box-seam', route: '/lots-akoho' },
     { label: 'Poulets Morts', icon: 'bi-heartbreak', route: '/akoho-maty' },
     { label: 'Recenser Œufs', icon: 'bi-box-seam', route: '/lots-atody' },
-    { label: 'Œufs Pourris', icon: 'bi-x-circle', route: '/atody-lamokany' },
-    { label: 'Naissance Poussins', icon: 'bi-egg', route: '/naissances-oeuf' },
+    // { label: 'Œufs Pourris', icon: 'bi-x-circle', route: '/atody-lamokany' },
+    // { label: 'Naissance Poussins', icon: 'bi-egg', route: '/naissances-oeuf' },
     { label: 'Situation Lots', icon: 'bi-bar-chart-line', route: '/situation-lots' },
   ];
 }

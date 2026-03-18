@@ -1,4 +1,6 @@
 const lotAkohoRepository = require('../repositories/lotAkoho.repository');
+const naissanceOeufRepository = require('../repositories/naissanceOeuf.repository');
+const atodyLamokanyRepository = require('../repositories/atodyLamokany.repository');
 const descriptionRaceService = require('./descriptionRace.service');
 const akohoMatyService = require('./akohoMaty.service');
 const raceService = require('./race.service');
@@ -155,6 +157,9 @@ async function getSituationByIdAndDate(id, date) {
     // prix achat total
     const prixAchatTotal = lotAkoho.prix_achat * lotAkoho.nombre;
 
+    // perte (œufs pourris) - uniquement pour les lots nés d'œufs
+    const perte = await getPerteLamokanyByLotAkohoId(id);
+
     // bénéfice
     const benefice = prixVenteTotal + valeurOeufsRestants - prixAchatTotal - valeurNourritureConsommee;
 
@@ -170,7 +175,8 @@ async function getSituationByIdAndDate(id, date) {
         valeurOeufsRestants,
         valeurNourritureConsommee,
         prixAchatTotal,
-        benefice
+        benefice,
+        perte
     }
 }
 
@@ -180,10 +186,31 @@ async function getNombreAkohoLahyById(id_lotAkoho) {
     return nombreLahy;
 }
 
+/**
+ * Récupérer le nombre d'œufs pourris (perte) associés à un lot_akoho né d'œufs.
+ * Si le lot n'est pas né d'œufs, retourne 0.
+ *
+ * @param {number} idLotAkoho - ID du lot de poulets
+ * @returns {number} Nombre d'œufs pourris (perte)
+ */
+async function getPerteLamokanyByLotAkohoId(idLotAkoho) {
+    // Trouver la naissance_oeuf correspondant à ce lot_akoho
+    const naissance = await naissanceOeufRepository.findByLotAkohoId(idLotAkoho);
+
+    if (!naissance) {
+        // Le lot n'est pas né d'œufs, pas de perte
+        return 0;
+    }
+
+    // Récupérer les œufs pourris associés au lot_atody de cette naissance
+    const perteLamokany = await atodyLamokanyRepository.getSumByLotAtodyId(naissance.Id_lot_atody);
+    return perteLamokany;
+}
+
 async function getCapaciteDePondaisonByIdAkoho(id_akoho) {
     const lotAkoho = await getById(id_akoho);
     const race = await raceService.getById(lotAkoho.Id_race);
     return lotAkoho.nombre_akoho_vavy * race.capacite_pondaison; 
 }
 
-module.exports = { getAll, getById, getByNumero, create, update, deleteById, getSituationByIdAndDate, getLotAkohoBeforeDate };
+module.exports = { getAll, getById, getByNumero, create, update, deleteById, getSituationByIdAndDate, getLotAkohoBeforeDate, getNombreAkohoLahyById, getCapaciteDePondaisonByIdAkoho };

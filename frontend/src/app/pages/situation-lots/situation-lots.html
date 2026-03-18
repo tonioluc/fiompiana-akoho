@@ -95,6 +95,14 @@
           <div class="summary-label">Oeufs total</div>
           <div class="summary-value summary-value-default">{{ formatNumber(summary().oeufs) }}</div>
         </div>
+
+        <div class="summary-card">
+          <div class="summary-label">
+            <i class="bi bi-egg me-1"></i>
+            Perte (œufs pourris)
+          </div>
+          <div class="summary-value" [class]="getDepenseClass(summary().perte, true)">{{ formatNumber(summary().perte) }}</div>
+        </div>
       </div>
     }
 
@@ -116,6 +124,7 @@
                 <th scope="col" class="text-end">Nourriture consommée</th>
                 <th scope="col" class="text-end">Prix achat total</th>
                 <th scope="col" class="text-end">Bénéfice</th>
+                <th scope="col" class="text-end">Perte (œufs)</th>
               </tr>
             </thead>
             <tbody>
@@ -133,12 +142,13 @@
                   <td class="text-end" [class]="getDepenseClass(item.valeurNourritureConsommee)">{{ formatCurrency(item.valeurNourritureConsommee) }}</td>
                   <td class="text-end" [class]="getDepenseClass(item.prixAchatTotal)">{{ formatCurrency(item.prixAchatTotal) }}</td>
                   <td class="text-end" [class]="getBeneficeClass(item.benefice)">{{ formatCurrency(item.benefice) }}</td>
+                  <td class="text-end" [class]="getDepenseClass(item.perte)">{{ item.perte }}</td>
                 </tr>
               }
 
               @if (situations().length === 0) {
                 <tr>
-                    <td colspan="12" class="text-center text-muted py-4">
+                    <td colspan="13" class="text-center text-muted py-4">
                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                     Aucun lot trouvé pour cette date.
                   </td>

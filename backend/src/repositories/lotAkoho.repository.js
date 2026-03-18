@@ -78,4 +78,14 @@ async function findByNumero(numero) {
     return result.recordset[0] || null;
 }
 
-module.exports = { findAll, findById, findByNumero, create, update, deleteById, getLotAkohoBeforeDate };
+/**
+ * Récupérer le numéro maximum des lots de poulets.
+ */
+async function getMaxNumero() {
+    const pool = await getPool();
+    const result = await pool.request()
+        .query('SELECT COALESCE(MAX(numero), 0) as maxNumero FROM lot_akoho');
+    return result.recordset[0].maxNumero;
+}
+
+module.exports = { findAll, findById, findByNumero, create, update, deleteById, getLotAkohoBeforeDate, getMaxNumero };

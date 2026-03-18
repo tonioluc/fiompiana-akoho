@@ -60,6 +60,8 @@
                 <th scope="col">Numéro</th>
                 <th scope="col">Date d'entrée</th>
                 <th scope="col">Nombre d'œufs</th>
+                <th scope="col">% Lamokany</th>
+                <th scope="col">% Vavy</th>
                 <th scope="col">Lot de poulets</th>
                 <th scope="col" class="text-center">Actions</th>
               </tr>
@@ -71,6 +73,8 @@
                   <td>{{ item.numero }}</td>
                   <td>{{ formatDate(item.date_entree) }}</td>
                   <td>{{ item.nombre }}</td>
+                  <td>{{ item.pourcentage_atody_lamokany }}%</td>
+                  <td>{{ item.pourcentage_vavy }}%</td>
                   <td>{{ getLotNumero(item.Id_lot_akoho) }}</td>
                   <td class="text-center">
                     <button class="btn btn-sm btn-outline-warning me-1"
@@ -91,7 +95,7 @@
 
               @if (items().length === 0) {
                 <tr>
-                  <td colspan="6" class="text-center text-muted py-4">
+                  <td colspan="8" class="text-center text-muted py-4">
                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                     Aucun lot d'œufs trouvé.
                   </td>
@@ -174,6 +178,32 @@
                      name="nombre"
                      [(ngModel)]="formData.nombre"
                      placeholder="Ex: 200"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label for="pourcentageLamokany" class="form-label">Pourcentage d'œufs pourris estimé (%)</label>
+              <input type="number"
+                     class="form-control"
+                     id="pourcentageLamokany"
+                     name="pourcentageLamokany"
+                     [(ngModel)]="formData.pourcentage_atody_lamokany"
+                     placeholder="Ex: 5"
+                     min="0"
+                     max="100"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label for="pourcentageVavy" class="form-label">Pourcentage de poussins femelles estimé (%)</label>
+              <input type="number"
+                     class="form-control"
+                     id="pourcentageVavy"
+                     name="pourcentageVavy"
+                     [(ngModel)]="formData.pourcentage_vavy"
+                     placeholder="Ex: 50"
+                     min="0"
+                     max="100"
                      required>
             </div>
           </form>

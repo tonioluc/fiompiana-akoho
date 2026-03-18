@@ -176,6 +176,8 @@ export class LotAtodyComponent implements OnInit {
       numero: 0,
       date_entree: '',
       nombre: 0,
+      pourcentage_atody_lamokany: 0,
+      pourcentage_vavy: 50,
       Id_lot_akoho: 0
     };
   }

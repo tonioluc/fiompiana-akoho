@@ -14,31 +14,33 @@ async function findById(id) {
     return result.recordset[0] || null;
 }
 
-async function create({ nombre_poussin, date_naissance, Id_lot_atody }) {
+async function create({ nombre_poussin, date_naissance, Id_lot_atody, Id_lot_akoho }) {
     const pool = await getPool();
     const result = await pool.request()
         .input('nombre_poussin', sql.Int, nombre_poussin)
         .input('date_naissance', sql.Date, date_naissance)
         .input('Id_lot_atody', sql.Int, Id_lot_atody)
+        .input('Id_lot_akoho', sql.Int, Id_lot_akoho)
         .query(`
-            INSERT INTO naissance_oeuf (nombre_poussin, date_naissance, Id_lot_atody)
+            INSERT INTO naissance_oeuf (nombre_poussin, date_naissance, Id_lot_atody, Id_lot_akoho)
             OUTPUT INSERTED.*
-            VALUES (@nombre_poussin, @date_naissance, @Id_lot_atody)
+            VALUES (@nombre_poussin, @date_naissance, @Id_lot_atody, @Id_lot_akoho)
         `);
     return result.recordset[0];
 }
 
-async function update(id, { nombre_poussin, date_naissance, Id_lot_atody }) {
+async function update(id, { nombre_poussin, date_naissance, Id_lot_atody, Id_lot_akoho }) {
     const pool = await getPool();
     const result = await pool.request()
         .input('id', sql.Int, id)
         .input('nombre_poussin', sql.Int, nombre_poussin)
         .input('date_naissance', sql.Date, date_naissance)
         .input('Id_lot_atody', sql.Int, Id_lot_atody)
+        .input('Id_lot_akoho', sql.Int, Id_lot_akoho)
         .query(`
             UPDATE naissance_oeuf
             SET nombre_poussin = @nombre_poussin, date_naissance = @date_naissance,
-                Id_lot_atody = @Id_lot_atody
+                Id_lot_atody = @Id_lot_atody, Id_lot_akoho = @Id_lot_akoho
             WHERE Id_naissance_oeuf = @id;
             SELECT * FROM naissance_oeuf WHERE Id_naissance_oeuf = @id;
         `);
@@ -70,4 +72,15 @@ async function sumNaissanceByLotAtodyIdsAndDate(lotAtodyIds, date) {
     return result.recordset[0].total;
 }
 
-module.exports = { findAll, findById, create, update, deleteById, sumNaissanceByLotAtodyIdsAndDate };
+/**
+ * Trouver la naissance_oeuf par Id_lot_akoho (le lot créé par cette naissance).
+ */
+async function findByLotAkohoId(idLotAkoho) {
+    const pool = await getPool();
+    const result = await pool.request()
+        .input('idLotAkoho', sql.Int, idLotAkoho)
+        .query('SELECT * FROM naissance_oeuf WHERE Id_lot_akoho = @idLotAkoho');
+    return result.recordset[0] || null;
+}
+
+module.exports = { findAll, findById, create, update, deleteById, sumNaissanceByLotAtodyIdsAndDate, findByLotAkohoId };

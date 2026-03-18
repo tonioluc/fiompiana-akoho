@@ -79,4 +79,15 @@ async function sumLamokanyByLotAtodyIdsAndDate(lotAtodyIds, date) {
     return result.recordset[0].total;
 }
 
-module.exports = { findAll, findById, create, update, deleteById, sumLamokanyByLotAtodyIdsAndDate };
+/**
+ * Calculer le nombre total d'œufs pourris pour un lot d'œufs spécifique.
+ */
+async function getSumByLotAtodyId(idLotAtody) {
+    const pool = await getPool();
+    const result = await pool.request()
+        .input('idLotAtody', sql.Int, idLotAtody)
+        .query('SELECT COALESCE(SUM(nombre), 0) as total FROM atody_lamokany WHERE Id_lot_atody = @idLotAtody');
+    return result.recordset[0].total;
+}
+
+module.exports = { findAll, findById, create, update, deleteById, sumLamokanyByLotAtodyIdsAndDate, getSumByLotAtodyId };

@@ -33,6 +33,7 @@ export class SituationLotsComponent implements OnInit {
         acc.prixAchat += item.prixAchatTotal;
         acc.valeurOeufs += item.valeurOeufsRestants;
         acc.oeufs += item.nombreOeuf;
+        acc.perte += item.perte;
         return acc;
       },
       {
@@ -41,7 +42,8 @@ export class SituationLotsComponent implements OnInit {
         prixVente: 0,
         prixAchat: 0,
         valeurOeufs: 0,
-        oeufs: 0
+        oeufs: 0,
+        perte: 0
       }
     );
   });

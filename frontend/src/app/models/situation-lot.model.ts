@@ -11,6 +11,7 @@ export interface SituationLot {
   valeurNourritureConsommee: number;
   prixAchatTotal: number;
   benefice: number;
+  perte: number;
 }
 
 export interface SituationLotsResponse {

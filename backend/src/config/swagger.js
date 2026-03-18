@@ -94,22 +94,26 @@ const options = {
                 // ─── LotAtody ────────────────────────────────────────────
                 LotAtody: {
                     type: 'object',
-                    required: ['numero', 'date_entree', 'nombre', 'Id_lot_akoho'],
+                    required: ['numero', 'date_entree', 'nombre', 'pourcentage_atody_lamokany', 'pourcentage_vavy', 'Id_lot_akoho'],
                     properties: {
                         Id_lot_atody: { type: 'integer', example: 1 },
                         numero: { type: 'integer', example: 201 },
                         date_entree: { type: 'string', format: 'date', example: '2025-02-01' },
                         nombre: { type: 'integer', example: 300, description: 'Nombre d\'œufs' },
+                        pourcentage_atody_lamokany: { type: 'integer', example: 5, description: 'Pourcentage d\'œufs pourris estimé' },
+                        pourcentage_vavy: { type: 'integer', example: 50, description: 'Pourcentage de poussins femelles estimé' },
                         Id_lot_akoho: { type: 'integer', example: 1 },
                     },
                 },
                 LotAtodyInput: {
                     type: 'object',
-                    required: ['numero', 'date_entree', 'nombre', 'Id_lot_akoho'],
+                    required: ['numero', 'date_entree', 'nombre', 'pourcentage_atody_lamokany', 'pourcentage_vavy', 'Id_lot_akoho'],
                     properties: {
                         numero: { type: 'integer', example: 201 },
                         date_entree: { type: 'string', format: 'date', example: '2025-02-01' },
                         nombre: { type: 'integer', example: 300 },
+                        pourcentage_atody_lamokany: { type: 'integer', example: 5 },
+                        pourcentage_vavy: { type: 'integer', example: 50 },
                         Id_lot_akoho: { type: 'integer', example: 1 },
                     },
                 },
