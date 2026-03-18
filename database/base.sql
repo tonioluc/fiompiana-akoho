@@ -49,11 +49,9 @@ CREATE TABLE lot_akoho(
    age INT,
    nombre_akoho_vavy INT,
    prix_achat FLOAT,
-   Id_lot_atody INT,
    Id_race INT NOT NULL,
    PRIMARY KEY(Id_lot_akoho),
-   FOREIGN KEY(Id_race) REFERENCES race(Id_race),
-   FOREIGN KEY(Id_lot_atody) REFERENCES lot_atody(Id_lot_atody)
+   FOREIGN KEY(Id_race) REFERENCES race(Id_race)
 );
 GO
 
@@ -85,7 +83,10 @@ CREATE TABLE naissance_oeuf(
    nombre_poussin INT NOT NULL,
    date_naissance DATE,
    Id_lot_atody INT NOT NULL,
+   Id_lot_akoho INT NOT NULL,
+   -- pour dire quel lot_akoho est créé par cette naissance_oeuf , donc on doit créer d'abord le lot_akoho avant de créer la naissance_oeuf
    PRIMARY KEY(Id_naissance_oeuf),
+   FOREIGN KEY (Id_lot_akoho) REFERENCES lot_akoho(Id_lot_akoho),
    FOREIGN KEY(Id_lot_atody) REFERENCES lot_atody(Id_lot_atody)
 );
 GO
