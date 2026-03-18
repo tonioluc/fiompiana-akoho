@@ -65,7 +65,7 @@ const situationLotsController = require('../controllers/situationLots.controller
  *                       nombreMorts:
  *                         type: integer
  *                         description: Nombre de poulets morts
- *                      pouletRestant:
+ *                       pouletRestant:
  *                          type: integer  
  *                          description: Nombre de poulets restants
  *                       poidsMoyen:
