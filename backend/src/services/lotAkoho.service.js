@@ -174,4 +174,16 @@ async function getSituationByIdAndDate(id, date) {
     }
 }
 
+async function getNombreAkohoLahyById(id_lotAkoho) {
+    const lotAkoho = await getById(id_lotAkoho);
+    const nombreLahy = lotAkoho.nombre - lotAkoho.nombre_akoho_vavy;
+    return nombreLahy;
+}
+
+async function getCapaciteDePondaisonByIdAkoho(id_akoho) {
+    const lotAkoho = await getById(id_akoho);
+    const race = await raceService.getById(lotAkoho.Id_race);
+    return lotAkoho.nombre_akoho_vavy * race.capacite_pondaison; 
+}
+
 module.exports = { getAll, getById, getByNumero, create, update, deleteById, getSituationByIdAndDate, getLotAkohoBeforeDate };
