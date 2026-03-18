@@ -14,22 +14,24 @@ async function findById(id) {
     return result.recordset[0] || null;
 }
 
-async function create({ nom, prix_sakafo, prix_vente, prix_vente_atody }) {
+async function create({ nom, prix_sakafo, prix_vente, prix_vente_atody, nombre_jour_foy, capacite_pondaison }) {
     const pool = await getPool();
     const result = await pool.request()
         .input('nom', sql.VarChar(50), nom)
         .input('prix_sakafo', sql.Float, prix_sakafo)
         .input('prix_vente', sql.Float, prix_vente)
         .input('prix_vente_atody', sql.Float, prix_vente_atody)
+        .input('nombre_jour_foy', sql.Int, nombre_jour_foy)
+        .input('capacite_pondaison', sql.Int, capacite_pondaison)
         .query(`
-            INSERT INTO race (nom, prix_sakafo, prix_vente, prix_vente_atody)
+            INSERT INTO race (nom, prix_sakafo, prix_vente, prix_vente_atody, nombre_jour_foy, capacite_pondaison)
             OUTPUT INSERTED.*
-            VALUES (@nom, @prix_sakafo, @prix_vente, @prix_vente_atody)
+            VALUES (@nom, @prix_sakafo, @prix_vente, @prix_vente_atody, @nombre_jour_foy, @capacite_pondaison)
         `);
     return result.recordset[0];
 }
 
-async function update(id, { nom, prix_sakafo, prix_vente, prix_vente_atody }) {
+async function update(id, { nom, prix_sakafo, prix_vente, prix_vente_atody, nombre_jour_foy, capacite_pondaison }) {
     const pool = await getPool();
     const result = await pool.request()
         .input('id', sql.Int, id)
@@ -37,10 +39,13 @@ async function update(id, { nom, prix_sakafo, prix_vente, prix_vente_atody }) {
         .input('prix_sakafo', sql.Float, prix_sakafo)
         .input('prix_vente', sql.Float, prix_vente)
         .input('prix_vente_atody', sql.Float, prix_vente_atody)
+        .input('nombre_jour_foy', sql.Int, nombre_jour_foy)
+        .input('capacite_pondaison', sql.Int, capacite_pondaison)
         .query(`
             UPDATE race
             SET nom = @nom, prix_sakafo = @prix_sakafo,
-                prix_vente = @prix_vente, prix_vente_atody = @prix_vente_atody
+                prix_vente = @prix_vente, prix_vente_atody = @prix_vente_atody,
+                nombre_jour_foy = @nombre_jour_foy, capacite_pondaison = @capacite_pondaison
             WHERE Id_race = @id;
             SELECT * FROM race WHERE Id_race = @id;
         `);

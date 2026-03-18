@@ -61,6 +61,8 @@
                 <th scope="col">Prix Sakafo (Ar)</th>
                 <th scope="col">Prix Vente (Ar)</th>
                 <th scope="col">Prix Vente Atody (Ar)</th>
+                <th scope="col">Nombre Jour Foy</th>
+                <th scope="col">Capacité Pondaison</th>
                 <th scope="col" class="text-center">Actions</th>
               </tr>
             </thead>
@@ -72,6 +74,8 @@
                   <td>{{ item.prix_sakafo }}</td>
                   <td>{{ item.prix_vente }}</td>
                   <td>{{ item.prix_vente_atody }}</td>
+                  <td>{{ item.nombre_jour_foy }}</td>
+                  <td>{{ item.capacite_pondaison }}</td>
                   <td class="text-center">
                     <button class="btn btn-sm btn-outline-warning me-1"
                             (click)="prepareEdit(item)"
@@ -91,7 +95,7 @@
 
               @if (races().length === 0) {
                 <tr>
-                  <td colspan="6" class="text-center text-muted py-4">
+                  <td colspan="8" class="text-center text-muted py-4">
                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                     Aucune race trouvée.
                   </td>
@@ -173,6 +177,28 @@
                      [(ngModel)]="formData.prix_vente_atody"
                      placeholder="Ex: 1500"
                      step="0.01"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label for="nombreJourFoy" class="form-label">Nombre Jour Foy</label>
+              <input type="number"
+                     class="form-control"
+                     id="nombreJourFoy"
+                     name="nombreJourFoy"
+                     [(ngModel)]="formData.nombre_jour_foy"
+                     placeholder="Ex: 21"
+                     required>
+            </div>
+
+            <div class="mb-3">
+              <label for="capacitePondaison" class="form-label">Capacité Pondaison</label>
+              <input type="number"
+                     class="form-control"
+                     id="capacitePondaison"
+                     name="capacitePondaison"
+                     [(ngModel)]="formData.capacite_pondaison"
+                     placeholder="Ex: 250"
                      required>
             </div>
           </form>

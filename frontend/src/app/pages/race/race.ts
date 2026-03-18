@@ -109,7 +109,9 @@ export class RaceComponent implements OnInit {
       nom: '',
       prix_sakafo: 0,
       prix_vente: 0,
-      prix_vente_atody: 0
+      prix_vente_atody: 0,
+      nombre_jour_foy: 0,
+      capacite_pondaison: 0
     };
   }
 
