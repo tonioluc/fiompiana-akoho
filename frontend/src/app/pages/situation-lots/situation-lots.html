@@ -101,7 +101,7 @@
             <i class="bi bi-egg me-1"></i>
             Perte (œufs pourris)
           </div>
-          <div class="summary-value" [class]="getDepenseClass(summary().perte, true)">{{ formatNumber(summary().perte) }}</div>
+          <div class="summary-value" [class]="getDepenseClass(summary().perte, true)">{{ formatCurrency(summary().perte) }}</div>
         </div>
       </div>
     }
@@ -142,7 +142,7 @@
                   <td class="text-end" [class]="getDepenseClass(item.valeurNourritureConsommee)">{{ formatCurrency(item.valeurNourritureConsommee) }}</td>
                   <td class="text-end" [class]="getDepenseClass(item.prixAchatTotal)">{{ formatCurrency(item.prixAchatTotal) }}</td>
                   <td class="text-end" [class]="getBeneficeClass(item.benefice)">{{ formatCurrency(item.benefice) }}</td>
-                  <td class="text-end" [class]="getDepenseClass(item.perte)">{{ item.perte }}</td>
+                  <td class="text-end" [class]="getDepenseClass(item.perte)">{{ formatCurrency(item.perte) }}</td>
                 </tr>
               }
 

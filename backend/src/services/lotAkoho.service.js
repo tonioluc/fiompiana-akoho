@@ -1,6 +1,7 @@
 const lotAkohoRepository = require('../repositories/lotAkoho.repository');
 const naissanceOeufRepository = require('../repositories/naissanceOeuf.repository');
 const atodyLamokanyRepository = require('../repositories/atodyLamokany.repository');
+const lotAtodyRepository = require('../repositories/lotAtody.repository');
 const descriptionRaceService = require('./descriptionRace.service');
 const akohoMatyService = require('./akohoMaty.service');
 const raceService = require('./race.service');
@@ -187,11 +188,11 @@ async function getNombreAkohoLahyById(id_lotAkoho) {
 }
 
 /**
- * Récupérer le nombre d'œufs pourris (perte) associés à un lot_akoho né d'œufs.
+ * Récupérer la valeur des œufs pourris (perte) associés à un lot_akoho né d'œufs.
  * Si le lot n'est pas né d'œufs, retourne 0.
  *
  * @param {number} idLotAkoho - ID du lot de poulets
- * @returns {number} Nombre d'œufs pourris (perte)
+ * @returns {number} Valeur monétaire des œufs pourris (perte)
  */
 async function getPerteLamokanyByLotAkohoId(idLotAkoho) {
     // Trouver la naissance_oeuf correspondant à ce lot_akoho
@@ -202,9 +203,31 @@ async function getPerteLamokanyByLotAkohoId(idLotAkoho) {
         return 0;
     }
 
-    // Récupérer les œufs pourris associés au lot_atody de cette naissance
-    const perteLamokany = await atodyLamokanyRepository.getSumByLotAtodyId(naissance.Id_lot_atody);
-    return perteLamokany;
+    // Récupérer le nombre d'œufs pourris associés au lot_atody de cette naissance
+    const nombreLamokany = await atodyLamokanyRepository.getSumByLotAtodyId(naissance.Id_lot_atody);
+
+    if (nombreLamokany === 0) {
+        return 0;
+    }
+
+    // Récupérer le lot_atody pour obtenir le lot_akoho parent
+    const lotAtody = await lotAtodyRepository.findById(naissance.Id_lot_atody);
+    if (!lotAtody) {
+        return 0;
+    }
+
+    // Récupérer le lot_akoho parent pour obtenir la race
+    const lotAkohoParent = await lotAkohoRepository.findById(lotAtody.Id_lot_akoho);
+    if (!lotAkohoParent) {
+        return 0;
+    }
+
+    // Récupérer le prix de vente des œufs de la race
+    const race = await raceService.getById(lotAkohoParent.Id_race);
+
+    // Calculer la valeur des œufs pourris
+    const valeurPerte = nombreLamokany * race.prix_vente_atody;
+    return valeurPerte;
 }
 
 async function getCapaciteDePondaisonByIdAkoho(id_akoho) {
