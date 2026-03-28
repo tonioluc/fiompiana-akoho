@@ -57,11 +57,11 @@
             <thead class="table-dark">
               <tr>
                 <th scope="col">Nom</th>
-                <th scope="col">Prix Sakafo (Ar)</th>
-                <th scope="col">Prix Vente Lahy (Ar)</th>
-                <th scope="col">Prix Vente Vavy (Ar)</th>
-                <th scope="col">Prix Vente Atody (Ar)</th>
-                <th scope="col">Nombre Jour Foy</th>
+                <th scope="col">Prix nourriture</th>
+                <th scope="col">Prix Vente mâle</th>
+                <th scope="col">Prix Vente femelle</th>
+                <th scope="col">Prix Vente oeuf</th>
+                <th scope="col">Nombre Jour incubation</th>
                 <th scope="col">Capacité Pondaison</th>
                 <th scope="col" class="text-center">Actions</th>
               </tr>
@@ -70,10 +70,10 @@
               @for (item of races(); track item.Id_race) {
                 <tr>
                   <td>{{ item.nom }}</td>
-                  <td>{{ item.prix_sakafo }}</td>
-                  <td>{{ item.prix_vente_lahy }}</td>
-                  <td>{{ item.prix_vente_vavy }}</td>
-                  <td>{{ item.prix_vente_atody }}</td>
+                  <td>{{ item.prix_sakafo }} Ar/g</td>
+                  <td>{{ item.prix_vente_lahy }} Ar/g</td>
+                  <td>{{ item.prix_vente_vavy }} Ar/g</td>
+                  <td>{{ item.prix_vente_atody }} Ar/unité</td>
                   <td>{{ item.nombre_jour_foy }}</td>
                   <td>{{ item.capacite_pondaison }}</td>
                   <td class="text-center">
